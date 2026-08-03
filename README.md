@@ -9,7 +9,7 @@
 
 2. Acesse a pasta do projeto
    ```
-   cd express_bsi4
+   cd express-bsi4
    ```
 
 3. Instale as dependências
