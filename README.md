@@ -4,12 +4,12 @@
 
 1. Clone o repositório
    ```
-   git clone express_bsi4_2025_2
+   git clone https://github.com/marrcandre/express-bsi4.git
    ```
 
 2. Acesse a pasta do projeto
    ```
-   cd express_bsi4_2025_2
+   cd express_bsi4
    ```
 
 3. Instale as dependências
