@@ -6,8 +6,11 @@ app.use(express.json());
 // Rota GET
 app.get('/produtos', (req, res) => {
   res.json([
-    { id: 1, nome: 'Mouse', preco: 89.90 },
-    { id: 2, nome: 'Teclado', preco: 199.90 }
+    {id: 1, nome: "Notebook", preco: 3500},
+    {id: 2, nome: "Mouse", preco: 80},
+    {id: 3, nome: "Teclado", preco: 150},
+    {id: 4, nome: "Monitor", preco: 1200},
+    {id: 5, nome: "Impressora", preco: 300}
   ]);
 });
 
