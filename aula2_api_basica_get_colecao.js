@@ -3,8 +3,8 @@ const app = express();
 
 app.use(express.json());
 
-// Rota GET
-app.get('/produtos', (req, res) => {
+// Rota GET (coleção)
+app.get('/api/produtos/', (req, res) => {
   res.json([
     {id: 1, nome: "Notebook", preco: 3500},
     {id: 2, nome: "Mouse", preco: 80},
@@ -14,15 +14,7 @@ app.get('/produtos', (req, res) => {
   ]);
 });
 
-// Rota POST
-app.post('/produtos', (req, res) => {
-  res.json({
-    mensagem: 'Produto criado com sucesso',
-    dados: req.body
-  });
-});
-
 app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
 
 // Rodar servidor:
-// node index.js
+// node aula2_api_basica_get_colecao.js
