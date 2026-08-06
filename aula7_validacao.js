@@ -57,6 +57,8 @@ app.get('/api/produtos/:id/', (req, res) => {
 });
 
 // Rota POST (criação de recurso)
+// Ex.: POST /api/produtos/  body {"nome":"Webcam","preco":199.99}  -> 201 (Aula 07)
+// Erros 400 em {"detail": {campo: "mensagem"}}: nome vazio/curto, preco <=0 ou >2 casas.
 app.post('/api/produtos/', (req, res) => {
   const { nome, preco } = req.body;
 

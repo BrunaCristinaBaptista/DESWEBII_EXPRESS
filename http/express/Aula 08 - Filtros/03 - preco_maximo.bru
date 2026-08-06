@@ -1,0 +1,20 @@
+meta {
+  name: 03 - preco_maximo=150
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?preco_maximo=150
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.length: eq 2
+}
+
+docs {
+Filtra produtos com preço <= 150 (Mouse, Teclado).
+}

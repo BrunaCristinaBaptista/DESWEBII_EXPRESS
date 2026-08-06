@@ -1,0 +1,27 @@
+meta {
+  name: 06 - PUT inválido (400)
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{baseUrl}}/api/produtos/1/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "A",
+    "preco": 10
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.nome: eq "O nome deve possuir entre 2 e 100 caracteres."
+}
+
+docs {
+PUT também valida o corpo → 400.
+}

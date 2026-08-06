@@ -38,6 +38,7 @@ app.post('/api/produtos/', (req, res) => {
 });
 
 // Rota PUT (atualização completa do recurso)
+// Ex.: PUT /api/produtos/1/  body {"nome":"Notebook Pro","preco":4500}  (Aula 05 -> 02 - atualizar produto, 200)
 app.put('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });

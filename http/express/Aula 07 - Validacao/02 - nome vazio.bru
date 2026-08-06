@@ -1,0 +1,27 @@
+meta {
+  name: 02 - Nome vazio (400)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/produtos/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "",
+    "preco": 10
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.nome: eq "O campo não pode ser vazio."
+}
+
+docs {
+POST com nome vazio → 400.
+}

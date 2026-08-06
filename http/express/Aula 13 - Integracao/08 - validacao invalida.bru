@@ -1,0 +1,27 @@
+meta {
+  name: 08 - Validação (regressão)
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/produtos/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Produto",
+    "preco": -5
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.preco: eq "O preço deve ser maior que zero."
+}
+
+docs {
+Validação continua ativa na API completa.
+}

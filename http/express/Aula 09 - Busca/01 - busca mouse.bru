@@ -1,0 +1,21 @@
+meta {
+  name: 01 - search=mouse
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?search=mouse
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.length: eq 1
+  res.body[0].nome: eq "Mouse"
+}
+
+docs {
+Busca parcial por nome.
+}

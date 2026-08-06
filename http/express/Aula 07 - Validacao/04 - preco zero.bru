@@ -1,0 +1,27 @@
+meta {
+  name: 04 - Preço zero (400)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/produtos/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Produto",
+    "preco": 0
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.preco: eq "O preço deve ser maior que zero."
+}
+
+docs {
+POST com preço 0 → 400.
+}

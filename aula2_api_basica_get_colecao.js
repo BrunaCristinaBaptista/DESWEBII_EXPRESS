@@ -4,6 +4,7 @@ const app = express();
 app.use(express.json());
 
 // Rota GET (coleção)
+// Ex.: GET /api/produtos/  (teste Bruno: Aula 02 -> 01 - listar todos)
 app.get('/api/produtos/', (req, res) => {
   res.json([
     {id: 1, nome: "Notebook", preco: 3500},

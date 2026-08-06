@@ -1,0 +1,19 @@
+meta {
+  name: 06 - Remover (restaura base)
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/api/produtos/6/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}
+
+docs {
+DELETE remove o id 6, restaurando produtos.json ao estado-base (5 itens).
+}

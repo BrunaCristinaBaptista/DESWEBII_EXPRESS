@@ -1,0 +1,21 @@
+meta {
+  name: 04 - ordering=preco
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?ordering=preco
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body[0].preco: eq 80
+  res.body[4].preco: eq 3500
+}
+
+docs {
+Ordenação crescente por preço (primeiro Mouse=80).
+}

@@ -1,0 +1,20 @@
+meta {
+  name: 04 - Remover produto já removido
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/produtos/5/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+  res.body.detail: eq "Produto não encontrado."
+}
+
+docs {
+DELETE do mesmo id gera 404 (reproduzível).
+}

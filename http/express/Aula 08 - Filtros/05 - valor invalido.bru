@@ -1,0 +1,20 @@
+meta {
+  name: 05 - preco_minimo inválido (400)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?preco_minimo=abc
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.preco_minimo: eq "O valor deve ser numérico."
+}
+
+docs {
+Filtro não numérico → 400.
+}

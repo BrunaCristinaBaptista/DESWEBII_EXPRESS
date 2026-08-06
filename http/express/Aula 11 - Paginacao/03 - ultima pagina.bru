@@ -1,0 +1,21 @@
+meta {
+  name: 03 - Última página parcial
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?page=3&page_size=2
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.page: eq 3
+  res.body.results.length: eq 1
+}
+
+docs {
+Última página parcial (1 item restante).
+}

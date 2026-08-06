@@ -1,0 +1,20 @@
+meta {
+  name: 04 - intervalo 100..300
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?preco_minimo=100&preco_maximo=300
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.length: eq 2
+}
+
+docs {
+Combina mínimo e máximo (Teclado, Impressora).
+}

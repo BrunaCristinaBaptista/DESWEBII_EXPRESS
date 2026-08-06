@@ -1,0 +1,28 @@
+meta {
+  name: 07 - POST válido (201)
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/produtos/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Webcam",
+    "preco": 199.99
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.id: eq 6
+  res.body.nome: eq "Webcam"
+}
+
+docs {
+POST válido é aceito (201).
+}

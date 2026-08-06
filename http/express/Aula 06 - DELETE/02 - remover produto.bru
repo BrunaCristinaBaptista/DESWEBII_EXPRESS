@@ -1,0 +1,19 @@
+meta {
+  name: 02 - Remover produto (DELETE)
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{baseUrl}}/api/produtos/5/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}
+
+docs {
+DELETE /api/produtos/5/ — remove o id 5 (204 sem corpo).
+}

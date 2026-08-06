@@ -45,6 +45,7 @@ function validarProduto({ nome, preco }) {
 }
 
 // Rota GET (coleção), com filtros por preço e busca por nome
+// Ex.: GET /api/produtos/?search=mouse  (busca parcial, case-insensitive; Aula 09)
 app.get('/api/produtos/', (req, res) => {
   const { search, preco_minimo, preco_maximo } = req.query;
 

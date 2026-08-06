@@ -1,0 +1,21 @@
+meta {
+  name: 04 - page além do limite
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?page=9&page_size=2
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.page: eq 9
+  res.body.results.length: eq 0
+}
+
+docs {
+Página além do fim → results vazio (200).
+}

@@ -13,11 +13,14 @@ const produtos = [
 ];
 
 // Rota GET (coleção)
+// Ex.: GET /api/produtos/  (Aula 03 -> 01 - listar todos)
 app.get('/api/produtos/', (req, res) => {
   res.json(produtos);
 });
 
 // Rota GET por ID (parâmetro de rota)
+// Ex.: GET /api/produtos/1/  (Aula 03 -> 02 - buscar por id existente)
+// Ex.: GET /api/produtos/999/  (Aula 03 -> 03 - buscar por id inexistente, 404)
 app.get('/api/produtos/:id/', (req, res) => {
   const produto = produtos.find(p => p.id === parseInt(req.params.id));
   if (!produto) return res.status(404).json({ detail: "Produto não encontrado." });

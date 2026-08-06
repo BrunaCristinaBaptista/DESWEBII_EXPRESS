@@ -45,6 +45,7 @@ function validarProduto({ nome, preco }) {
 }
 
 // Rota GET (coleção), com filtros por preço
+// Ex.: GET /api/produtos/?preco_minimo=100&preco_maximo=300  (Aula 08)
 app.get('/api/produtos/', (req, res) => {
   const { preco_minimo, preco_maximo } = req.query;
 

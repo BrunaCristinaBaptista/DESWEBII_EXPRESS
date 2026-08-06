@@ -1,0 +1,27 @@
+meta {
+  name: 04 - Atualizar e persistir
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/api/produtos/6/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Webcam Pro",
+    "preco": 299
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.nome: eq "Webcam Pro"
+}
+
+docs {
+PUT grava a atualização em produtos.json.
+}

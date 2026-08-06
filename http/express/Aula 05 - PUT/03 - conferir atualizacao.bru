@@ -1,0 +1,21 @@
+meta {
+  name: 03 - Conferir atualização
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/1/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.nome: eq "Notebook Pro"
+  res.body.preco: eq 4500
+}
+
+docs {
+GET /api/produtos/1/ — confirma o dado atualizado.
+}

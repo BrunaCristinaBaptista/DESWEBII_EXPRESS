@@ -1,0 +1,20 @@
+meta {
+  name: 07 - Buscar produto removido
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/6/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+  res.body.detail: eq "Produto não encontrado."
+}
+
+docs {
+Confirma a remoção (404).
+}

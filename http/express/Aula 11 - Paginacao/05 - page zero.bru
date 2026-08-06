@@ -1,0 +1,20 @@
+meta {
+  name: 05 - page=0 (400)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?page=0
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.page: eq "O campo page deve ser um inteiro positivo."
+}
+
+docs {
+page=0 é inválido → 400.
+}

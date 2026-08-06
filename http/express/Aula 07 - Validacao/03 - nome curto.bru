@@ -1,0 +1,27 @@
+meta {
+  name: 03 - Nome com 1 caractere (400)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/produtos/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "A",
+    "preco": 10
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.nome: eq "O nome deve possuir entre 2 e 100 caracteres."
+}
+
+docs {
+POST com nome de 1 caractere → 400.
+}

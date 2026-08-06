@@ -1,0 +1,29 @@
+meta {
+  name: 02 - Atualizar produto (PUT)
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}/api/produtos/1/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Notebook Pro",
+    "preco": 4500
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: eq 1
+  res.body.nome: eq "Notebook Pro"
+  res.body.preco: eq 4500
+}
+
+docs {
+PUT /api/produtos/1/ — substitui todos os dados do id 1, mantendo o id.
+}

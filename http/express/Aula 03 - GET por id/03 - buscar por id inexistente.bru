@@ -1,0 +1,20 @@
+meta {
+  name: 03 - Buscar por ID inexistente
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/999/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+  res.body.detail: eq "Produto não encontrado."
+}
+
+docs {
+GET /api/produtos/999/ — id inexistente gera 404.
+}

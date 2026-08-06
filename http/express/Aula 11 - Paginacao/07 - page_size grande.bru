@@ -1,0 +1,20 @@
+meta {
+  name: 07 - page_size=101 (400)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?page_size=101
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.page_size: eq "O campo page_size não pode passar de 100."
+}
+
+docs {
+page_size acima de 100 → 400.
+}

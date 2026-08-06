@@ -1,0 +1,20 @@
+meta {
+  name: 03 - Buscar produto persistido
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/6/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.nome: eq "Webcam"
+}
+
+docs {
+GET /6/ — produto veio do arquivo.
+}

@@ -25,6 +25,7 @@ app.get('/api/produtos/:id/', (req, res) => {
 });
 
 // Rota POST (criação de recurso)
+// Ex.: POST /api/produtos/  body {"nome":"Webcam","preco":199.99}  (Aula 04 -> 02 - criar produto, 201)
 app.post('/api/produtos/', (req, res) => {
   const { nome, preco } = req.body;
 

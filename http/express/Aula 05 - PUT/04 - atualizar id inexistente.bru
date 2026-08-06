@@ -1,0 +1,27 @@
+meta {
+  name: 04 - Atualizar ID inexistente
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/api/produtos/999/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Inexistente",
+    "preco": 1
+  }
+}
+
+assert {
+  res.status: eq 404
+  res.body.detail: eq "Produto não encontrado."
+}
+
+docs {
+PUT em id inexistente gera 404.
+}

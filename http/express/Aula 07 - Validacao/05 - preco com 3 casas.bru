@@ -1,0 +1,27 @@
+meta {
+  name: 05 - Preço com 3 casas decimais (400)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/produtos/
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "Produto",
+    "preco": 1.234
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.detail.preco: eq "O campo deve ter no máximo 2 casas decimais."
+}
+
+docs {
+POST com preço de 3 casas decimais → 400.
+}

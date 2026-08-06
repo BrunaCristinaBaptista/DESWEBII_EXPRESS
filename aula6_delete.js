@@ -51,6 +51,7 @@ app.put('/api/produtos/:id/', (req, res) => {
 });
 
 // Rota DELETE (remoção de recurso)
+// Ex.: DELETE /api/produtos/5/  (Aula 06 -> 02 - remover produto, 204 sem corpo)
 app.delete('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });

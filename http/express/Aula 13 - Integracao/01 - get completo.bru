@@ -1,0 +1,22 @@
+meta {
+  name: 01 - GET combinado (filtros+busca+ordenação+paginação)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?search=o&preco_minimo=100&preco_maximo=2000&ordering=-preco&page=1&page_size=10
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.page: eq 1
+  res.body.results.length: eq 3
+  res.body.results[0].nome: eq "Monitor"
+}
+
+docs {
+Teste de integração: combina busca, filtros, ordenação e paginação.
+}

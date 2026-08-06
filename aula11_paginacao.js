@@ -45,6 +45,7 @@ function validarProduto({ nome, preco }) {
 }
 
 // Rota GET (coleção), com filtros, busca, ordenação e paginação
+// Ex.: GET /api/produtos/?page=2&page_size=2  -> {page, page_size, total_pages, results} (Aula 11)
 app.get('/api/produtos/', (req, res) => {
   const { search, preco_minimo, preco_maximo, ordering, page, page_size } = req.query;
 

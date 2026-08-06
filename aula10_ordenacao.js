@@ -45,6 +45,7 @@ function validarProduto({ nome, preco }) {
 }
 
 // Rota GET (coleção), com filtros por preço, busca por nome e ordenação
+// Ex.: GET /api/produtos/?ordering=-preco  (nome/preco; prefixo '-' = decrescente; Aula 10)
 app.get('/api/produtos/', (req, res) => {
   const { search, preco_minimo, preco_maximo, ordering } = req.query;
 

@@ -1,0 +1,21 @@
+meta {
+  name: 02 - ordering=nome
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?ordering=nome
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body[0].nome: eq "Impressora"
+  res.body[4].nome: eq "Teclado"
+}
+
+docs {
+Ordenação alfabética crescente por nome.
+}

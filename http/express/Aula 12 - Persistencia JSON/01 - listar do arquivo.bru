@@ -1,0 +1,21 @@
+meta {
+  name: 01 - Listar (dados do arquivo)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.page: eq 1
+  res.body.results.length: eq 5
+}
+
+docs {
+GET lê os dados de produtos.json.
+}

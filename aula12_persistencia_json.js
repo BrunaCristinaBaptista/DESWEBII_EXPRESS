@@ -168,6 +168,7 @@ app.get('/api/produtos/:id/', (req, res) => {
 });
 
 // Rota POST (criação de recurso)
+// Ex.: POST /api/produtos/  body {"nome":"Webcam","preco":199.99} -> 201, grava em produtos.json (Aula 12)
 app.post('/api/produtos/', (req, res) => {
   const { nome, preco } = req.body;
 
@@ -187,6 +188,7 @@ app.post('/api/produtos/', (req, res) => {
 });
 
 // Rota PUT (atualização completa do recurso)
+// Ex.: PUT /api/produtos/6/  body {"nome":"Webcam Pro","preco":299} -> 200, grava em produtos.json (Aula 12)
 app.put('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
@@ -206,6 +208,7 @@ app.put('/api/produtos/:id/', (req, res) => {
 });
 
 // Rota DELETE (remoção de recurso)
+// Ex.: DELETE /api/produtos/6/ -> 204, grava (remove) em produtos.json (Aula 12)
 app.delete('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });

@@ -1,0 +1,19 @@
+meta {
+  name: 07 - CRUD: confirmar remoção
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/6/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}
+
+docs {
+CRUD: confirma que o recurso foi removido.
+}

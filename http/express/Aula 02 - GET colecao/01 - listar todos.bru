@@ -1,0 +1,21 @@
+meta {
+  name: 01 - Listar todos
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.length: eq 5
+  res.body[0].nome: eq "Notebook"
+}
+
+docs {
+GET /api/produtos/ — lista a coleção completa (5 produtos).
+}
