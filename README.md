@@ -91,7 +91,11 @@ exercem os endpoints daquela aula, com asserções de status/campos/estrutura/er
 Como executar:
 
 1. Instale o app [Bruno](https://usebruno.com/) (desktop) — a coleção abre como pasta (`http/express/`).
-2. Abra a coleção e selecione o ambiente `Local` (variável `baseUrl = http://localhost:3000`).
+2. Abra a coleção e **selecione o ambiente `Local`** no seletor de ambientes (escopo da coleção).
+   - O ambiente `Local` define `baseUrl = http://localhost:3000`.
+   - As requisições usam `{{baseUrl}}/api/produtos/`, então **não é preciso editar cada requisição**.
+   - Sem o ambiente selecionado, o Bruno manda literalmente `{{baseUrl}}` como hostname e o erro fica:
+     `getaddrinfo ENOTFOUND {{baseurl}}`.
 3. Inicie a aula correspondente:
    ```bash
    node aula2_api_basica_get_colecao.js      # ou a aula desejada (2 a 13)
