@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/produtos/6/
+  url: {{baseUrl}}/api/produtos/61/
   body: none
   auth: none
 }
@@ -13,8 +13,9 @@ get {
 assert {
   res.status: eq 404
   res.body.detail: eq "Produto não encontrado."
+
 }
 
 docs {
-Confirma a remoção (404).
+Confirma a remoção (404) — dataset-base restaurado para 60.
 }

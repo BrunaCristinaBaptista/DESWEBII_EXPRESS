@@ -5,13 +5,15 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/produtos/6/
+  url: {{baseUrl}}/api/produtos/61/
   body: none
   auth: none
 }
 
 assert {
   res.status: eq 404
+  res.body.detail: eq "Produto não encontrado."
+
 }
 
 docs {

@@ -5,17 +5,18 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/produtos/?page=9&page_size=2
+  url: {{baseUrl}}/api/produtos/?page=31&page_size=2
   body: none
   auth: none
 }
 
 assert {
   res.status: eq 200
-  res.body.page: eq 9
+  res.body.page: eq 31
+  res.body.total_pages: eq 30
   res.body.results.length: eq 0
 }
 
 docs {
-Página além do fim → results vazio (200).
+Página além do fim (page 31 > 30) → results vazio (200).
 }

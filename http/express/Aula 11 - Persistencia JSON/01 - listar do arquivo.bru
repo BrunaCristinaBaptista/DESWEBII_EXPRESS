@@ -12,10 +12,10 @@ get {
 
 assert {
   res.status: eq 200
-  res.body.page: eq 1
-  res.body.results.length: eq 5
+  res.body.length: eq 60
 }
 
 docs {
-GET lê os dados de produtos.json.
+GET lê os dados de produtos.json — array simples com os 60 produtos-base.
+Antes: dados no código. Agora: dados em produtos.json.
 }

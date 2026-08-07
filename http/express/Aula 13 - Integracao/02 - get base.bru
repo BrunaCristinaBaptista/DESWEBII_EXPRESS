@@ -12,9 +12,12 @@ get {
 
 assert {
   res.status: eq 200
-  res.body.results.length: eq 5
+  res.body.page: eq 1
+  res.body.page_size: eq 10
+  res.body.total_pages: eq 6
+  res.body.results.length: eq 10
 }
 
 docs {
-Regressão do GET paginado.
+Regressão do GET paginado — 6 páginas para o dataset-base de 60.
 }

@@ -1,16 +1,54 @@
+// Aula 11 — Persistência JSON
+// Até aqui os dados estavam em memória (definidos no próprio código).
+// Nesta aula eles passam a ser carregados e salvos em um arquivo JSON (produtos.json),
+// que contém os 60 produtos-base.
+//
+//   GET    /api/produtos/          lista array simples (filtros, busca, ordenação)
+//   GET    /api/produtos/:id/      produto individual
+//   POST   /api/produtos/          cria produto (201) e grava no arquivo
+//   PUT    /api/produtos/:id/      atualiza produto por completo (200) e grava
+//   DELETE /api/produtos/:id/      remove produto (204 sem corpo) e grava
+//
+// Ainda não há paginação aqui: a coleção é devolvida como um array simples.
+//
+// Rodar servidor:
+// node aula11_persistencia_json.js
+
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const app = express();
 
 app.use(express.json());
 
-// Coleção de produtos em memória
-let produtos = [
-  {id: 1, nome: "Notebook", preco: 3500},
-  {id: 2, nome: "Mouse", preco: 80},
-  {id: 3, nome: "Teclado", preco: 150},
-  {id: 4, nome: "Monitor", preco: 1200},
-  {id: 5, nome: "Impressora", preco: 300}
-];
+// Caminho do arquivo de persistência
+const ARQUIVO = path.join(__dirname, 'produtos.json');
+
+// Carrega os produtos do arquivo JSON
+function carregarProdutos() {
+  // Se o arquivo não existir, cria com coleção vazia
+  if (!fs.existsSync(ARQUIVO)) {
+    salvarProdutos([]);
+    return [];
+  }
+
+  try {
+    const conteudo = fs.readFileSync(ARQUIVO, 'utf-8');
+    const dados = JSON.parse(conteudo);
+    // JSON inválido ou vazio cai no catch; não-array também vira coleção vazia
+    return Array.isArray(dados) ? dados : [];
+  } catch (erro) {
+    return [];
+  }
+}
+
+// Grava a coleção no arquivo JSON (indentado, UTF-8)
+function salvarProdutos(lista) {
+  fs.writeFileSync(ARQUIVO, JSON.stringify(lista, null, 2), 'utf-8');
+}
+
+// Coleção de produtos carregada do arquivo
+let produtos = carregarProdutos();
 
 // Função de validação (retorna { campo: mensagem }; vazio = válido)
 function validarProduto({ nome, preco }) {
@@ -44,10 +82,10 @@ function validarProduto({ nome, preco }) {
   return erros;
 }
 
-// Rota GET (coleção), com filtros, busca, ordenação e paginação
-// Ex.: GET /api/produtos/?page=2&page_size=2  -> {page, page_size, total_pages, results} (Aula 11)
+// Rota GET (coleção): carrega os produtos e aplica filtros, busca e ordenação,
+// devolvendo um array simples. GET não altera nem salva o arquivo.
 app.get('/api/produtos/', (req, res) => {
-  const { search, preco_minimo, preco_maximo, ordering, page, page_size } = req.query;
+  const { search, preco_minimo, preco_maximo, ordering } = req.query;
 
   const erros = {};
   if (preco_minimo !== undefined && preco_minimo !== "" && isNaN(Number(preco_minimo))) {
@@ -69,27 +107,6 @@ app.get('/api/produtos/', (req, res) => {
     } else {
       campoOrdenacao = valor;
       ordemDesc = desc;
-    }
-  }
-
-  // Paginação: page (padrão 1) e page_size (padrão 10, máximo 100)
-  let pagina = 1;
-  let tamanhoPagina = 10;
-  if (page !== undefined && page !== "") {
-    if (!/^[1-9][0-9]*$/.test(page)) {
-      erros.page = "O campo page deve ser um inteiro positivo.";
-    } else {
-      pagina = parseInt(page, 10);
-    }
-  }
-  if (page_size !== undefined && page_size !== "") {
-    if (!/^[1-9][0-9]*$/.test(page_size)) {
-      erros.page_size = "O campo page_size deve ser um inteiro positivo.";
-    } else {
-      tamanhoPagina = parseInt(page_size, 10);
-      if (tamanhoPagina > 100) {
-        erros.page_size = "O campo page_size não pode passar de 100.";
-      }
     }
   }
 
@@ -127,15 +144,7 @@ app.get('/api/produtos/', (req, res) => {
     });
   }
 
-  // total_pages calculado sobre o total já filtrado/pesquisado/ordenado
-  const totalParaPaginacao = resultado.length;
-  const totalPages = Math.ceil(totalParaPaginacao / tamanhoPagina);
-
-  // Aplica o corte da página (slice)
-  const inicio = (pagina - 1) * tamanhoPagina;
-  const itensDaPagina = resultado.slice(inicio, inicio + tamanhoPagina);
-
-  res.json({ page: pagina, page_size: tamanhoPagina, total_pages: totalPages, results: itensDaPagina });
+  res.json(resultado);
 });
 
 // Rota GET por ID (parâmetro de rota)
@@ -146,6 +155,7 @@ app.get('/api/produtos/:id/', (req, res) => {
 });
 
 // Rota POST (criação de recurso)
+// Ex.: POST /api/produtos/  body {"nome":"Webcam","preco":199.99} -> 201, grava em produtos.json (Aula 11)
 app.post('/api/produtos/', (req, res) => {
   const { nome, preco } = req.body;
 
@@ -154,16 +164,18 @@ app.post('/api/produtos/', (req, res) => {
     return res.status(400).json({ detail: erros });
   }
 
-  // Gera um id incremental com base nos produtos existentes
+  // Gera um id incremental com base nos produtos atuais (persistidos)
   const novoId = produtos.length ? Math.max(...produtos.map(p => p.id)) + 1 : 1;
   const novoProduto = { id: novoId, nome: nome.trim(), preco };
 
   produtos.push(novoProduto);
+  salvarProdutos(produtos);
 
   res.status(201).json(novoProduto);
 });
 
 // Rota PUT (atualização completa do recurso)
+// Ex.: PUT /api/produtos/61/  body {"nome":"Webcam Pro","preco":299} -> 200, grava em produtos.json (Aula 11)
 app.put('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
@@ -177,16 +189,19 @@ app.put('/api/produtos/:id/', (req, res) => {
 
   // Substitui completamente os dados, mantendo o id
   produtos[index] = { id: parseInt(req.params.id), nome: nome.trim(), preco };
+  salvarProdutos(produtos);
 
   res.json(produtos[index]);
 });
 
 // Rota DELETE (remoção de recurso)
+// Ex.: DELETE /api/produtos/61/ -> 204, grava (remove) em produtos.json (Aula 11)
 app.delete('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
 
   produtos.splice(index, 1);
+  salvarProdutos(produtos);
 
   res.status(204).end();
 });
@@ -194,4 +209,4 @@ app.delete('/api/produtos/:id/', (req, res) => {
 app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
 
 // Rodar servidor:
-// node aula11_paginacao.js
+// node aula11_persistencia_json.js

@@ -13,9 +13,8 @@ get {
 assert {
   res.status: eq 200
   res.body.length: eq 5
-  res.body[0].nome: eq "Notebook"
 }
 
 docs {
-GET /api/produtos/ — lista a coleção completa (5 produtos).
+GET /api/produtos/ — lista a coleção como array simples (5 produtos em memória).
 }

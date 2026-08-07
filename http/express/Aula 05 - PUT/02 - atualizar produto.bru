@@ -1,5 +1,5 @@
 meta {
-  name: 02 - Atualizar produto (PUT)
+  name: 02 - Atualizar produto (id 1)
   type: http
   seq: 2
 }
@@ -25,5 +25,5 @@ assert {
 }
 
 docs {
-PUT /api/produtos/1/ — substitui todos os dados do id 1, mantendo o id.
+PUT /api/produtos/1/ — atualiza produto existente da coleção em memória.
 }

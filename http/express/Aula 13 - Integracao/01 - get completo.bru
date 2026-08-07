@@ -13,10 +13,11 @@ get {
 assert {
   res.status: eq 200
   res.body.page: eq 1
-  res.body.results.length: eq 3
-  res.body.results[0].nome: eq "Monitor"
+  res.body.total_pages: eq 2
+  res.body.results.length: eq 10
+  res.body.results[0].nome: eq "Projetor Full HD"
 }
 
 docs {
-Teste de integração: combina busca, filtros, ordenação e paginação.
+Teste de integração: combina busca ('o'), filtros (100..2000), ordenação (-preco) e paginação — 20 resultados em 2 páginas.
 }

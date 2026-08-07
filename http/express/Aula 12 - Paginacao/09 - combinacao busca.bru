@@ -1,0 +1,22 @@
+meta {
+  name: 09 - Paginação + busca (search=mouse)
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?search=mouse&page_size=10
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.page: eq 1
+  res.body.total_pages: eq 1
+  res.body.results.length: eq 2
+}
+
+docs {
+Paginação combinada com busca: 'mouse' → 2 resultados, 1 página.
+}

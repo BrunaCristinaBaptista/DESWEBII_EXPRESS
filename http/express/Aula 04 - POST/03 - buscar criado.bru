@@ -1,5 +1,5 @@
 meta {
-  name: 03 - Buscar produto criado
+  name: 03 - Buscar criado (201)
   type: http
   seq: 3
 }
@@ -12,9 +12,10 @@ get {
 
 assert {
   res.status: eq 200
+  res.body.id: eq 6
   res.body.nome: eq "Webcam"
 }
 
 docs {
-GET /api/produtos/6/ — confirma que o POST adicionou o produto na coleção em memória.
+O recurso criado pelo POST fica disponível para GET por id.
 }

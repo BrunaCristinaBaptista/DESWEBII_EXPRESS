@@ -1,5 +1,5 @@
 // Aula 13 — API completa
-// Consolidação final da sequência didática (Aulas 2 a 12).
+// Consolidação final da sequência didática (Aulas 2 a 12), sem conceito novo.
 // Reúne em um único arquivo todos os conceitos trabalhados:
 //
 //   GET    /api/produtos/          lista paginada (filtros, busca, ordenação, paginação)

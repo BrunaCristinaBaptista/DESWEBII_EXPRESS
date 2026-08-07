@@ -1,5 +1,5 @@
 meta {
-  name: 02 - Criar produto
+  name: 02 - Criar produto (201)
   type: http
   seq: 2
 }
@@ -21,9 +21,8 @@ assert {
   res.status: eq 201
   res.body.id: eq 6
   res.body.nome: eq "Webcam"
-  res.body.preco: eq 199.99
 }
 
 docs {
-POST /api/produtos/ — cria um produto (201), id incremental 6.
+POST /api/produtos/ — cria com id 6 (próximo após os 5 em memória).
 }

@@ -14,10 +14,10 @@ assert {
   res.status: eq 200
   res.body.page: eq 1
   res.body.page_size: eq 10
-  res.body.total_pages: eq 1
-  res.body.results.length: eq 5
+  res.body.total_pages: eq 6
+  res.body.results.length: eq 10
 }
 
 docs {
-Resposta paginada: { page, page_size, total_pages, results }.
+Resposta paginada: { page, page_size, total_pages, results } — 60 produtos, 6 páginas de 10.
 }

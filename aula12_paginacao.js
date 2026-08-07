@@ -1,3 +1,22 @@
+// Aula 12 — Paginação
+// Agora que a coleção é maior (60 produtos persistidos em produtos.json),
+// introduzimos paginação para controlar a quantidade de registros retornados.
+//
+//   GET    /api/produtos/          lista paginada (filtros, busca, ordenação, paginação)
+//   GET    /api/produtos/:id/      produto individual
+//   POST   /api/produtos/          cria produto (201) e grava no arquivo
+//   PUT    /api/produtos/:id/      atualiza produto por completo (200) e grava
+//   DELETE /api/produtos/:id/      remove produto (204 sem corpo) e grava
+//
+// Resposta paginada: { page, page_size, total_pages, results }
+// - page padrão 1, page_size padrão 10 (máximo 100)
+// - page/page_size inválidos → 400; página além do total → 200 com results: []
+//
+// Sequência do GET: cópia → filtros → search → ordering → total_pages → slice
+//
+// Rodar servidor:
+// node aula12_paginacao.js
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -188,7 +207,7 @@ app.post('/api/produtos/', (req, res) => {
 });
 
 // Rota PUT (atualização completa do recurso)
-// Ex.: PUT /api/produtos/6/  body {"nome":"Webcam Pro","preco":299} -> 200, grava em produtos.json (Aula 12)
+// Ex.: PUT /api/produtos/61/  body {"nome":"Webcam Pro","preco":299} -> 200, grava em produtos.json (Aula 12)
 app.put('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
@@ -208,7 +227,7 @@ app.put('/api/produtos/:id/', (req, res) => {
 });
 
 // Rota DELETE (remoção de recurso)
-// Ex.: DELETE /api/produtos/6/ -> 204, grava (remove) em produtos.json (Aula 12)
+// Ex.: DELETE /api/produtos/61/ -> 204, grava (remove) em produtos.json (Aula 12)
 app.delete('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
@@ -222,4 +241,4 @@ app.delete('/api/produtos/:id/', (req, res) => {
 app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
 
 // Rodar servidor:
-// node aula12_persistencia_json.js
+// node aula12_paginacao.js

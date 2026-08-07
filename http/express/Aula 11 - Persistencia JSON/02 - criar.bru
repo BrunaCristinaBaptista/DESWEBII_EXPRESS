@@ -19,10 +19,10 @@ body:json {
 
 assert {
   res.status: eq 201
-  res.body.id: eq 6
+  res.body.id: eq 61
   res.body.nome: eq "Webcam"
 }
 
 docs {
-POST grava o novo produto em produtos.json.
+POST grava o novo produto em produtos.json — id 61 (próximo após o dataset-base de 60).
 }

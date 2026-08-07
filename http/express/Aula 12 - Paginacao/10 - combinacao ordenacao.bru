@@ -1,0 +1,23 @@
+meta {
+  name: 10 - Paginação + ordenação (ordering=-preco)
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/produtos/?ordering=-preco&page_size=10&page=1
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.page: eq 1
+  res.body.total_pages: eq 6
+  res.body.results.length: eq 10
+  res.body.results[0].nome: eq "Servidor Torre"
+}
+
+docs {
+Paginação combinada com ordenação: -preco → primeiro 'Servidor Torre', 6 páginas.
+}

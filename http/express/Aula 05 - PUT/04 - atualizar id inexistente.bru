@@ -1,5 +1,5 @@
 meta {
-  name: 04 - Atualizar ID inexistente
+  name: 04 - Atualizar ID inexistente (404)
   type: http
   seq: 4
 }
@@ -12,16 +12,17 @@ put {
 
 body:json {
   {
-    "nome": "Inexistente",
-    "preco": 1
+    "nome": "Produto fantasma",
+    "preco": 1.0
   }
 }
 
 assert {
   res.status: eq 404
   res.body.detail: eq "Produto não encontrado."
+
 }
 
 docs {
-PUT em id inexistente gera 404.
+PUT em id inexistente → 404.
 }
