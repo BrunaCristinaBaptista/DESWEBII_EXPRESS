@@ -399,7 +399,7 @@ git commit -m "feat: preparação para os exercicios (aula 14 em diante)”
 ```
 
 ```bash
-git remote add origin [https://github.com/BrunaCristinaBaptista/DESWEBII_EXPRESS.git](https://github.com/BrunaCristinaBaptista/DESWEBII_EXPRESS.git)
+git remote set-url origin https://github.com/BrunaCristinaBaptista/DESWEBII_EXPRESS.git
 git branch -M main
 git push -u origin main
 ```

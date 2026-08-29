@@ -1,24 +1,17 @@
-// Aula 13 — API completa
-// Consolidação final da sequência didática (Aulas 2 a 12), sem conceito novo.
-// Reúne em um único arquivo todos os conceitos trabalhados:
+// Aula 14 — Adicionando marca
+// O produto passa a ter o campo marca
+// O req.body em POST e PUT passa a extrair marca, e o objeto persistido inclui marca: marca.trim().
 //
-//   GET    /api/produtos/          lista paginada (filtros, busca, ordenação, paginação)
-//   GET    /api/produtos/:id/      produto individual
-//   POST   /api/produtos/          cria produto (201)
-//   PUT    /api/produtos/:id/      atualiza produto por completo (200)
-//   DELETE /api/produtos/:id/      remove produto (204 sem corpo)
-//
-// Validação  : nome (obrigatório, string, trim, 2–100) e preco (obrigatório, numérico, >0, ≤2 casas)
-// Filtros    : preco_minimo, preco_maximo
-// Busca      : search (parcial, case-insensitive, em 'nome')
-// Ordenação  : ordering (nome, preco; prefixo '-' = decrescente)
+// Validação  : O campo marca tem regras (obrigatório, string, não vazio, tamanho entre 2 e 50)
+// Filtros    : Busca exata pelo nome da marca (case-insensitive)
+// Busca      : search (parcial, case-insensitive, em 'nome' e 'marca')
+// Ordenação  : permite ordenar pelo nome da marca
 // Paginação  : page (padrão 1), page_size (padrão 10, máximo 100)
-//              resposta { page, page_size, total_pages, results }
 // Erros      : {"detail": "..."} ou {"detail": {campo: "mensagem"}}
 // Persistência: produtos_14.json (fs/path); GET não grava; POST, PUT e DELETE gravam.
 //
 // Rodar servidor:
-// node aula13_api_completa.js
+// node Aula14_adicionando_marca.js
 
 const express = require('express');
 const fs = require('fs');
@@ -41,7 +34,6 @@ function carregarProdutos() {
   try {
     const conteudo = fs.readFileSync(ARQUIVO, 'utf-8');
     const dados = JSON.parse(conteudo);
-    // JSON inválido ou vazio cai no catch; não-array também vira coleção vazia
     return Array.isArray(dados) ? dados : [];
   } catch (erro) {
     return [];
@@ -56,8 +48,8 @@ function salvarProdutos(lista) {
 // Coleção de produtos carregada do arquivo
 let produtos = carregarProdutos();
 
-// Função de validação (retorna { campo: mensagem }; vazio = válido)
-function validarProduto({ nome, preco }) {
+// Função de validação CORRIGIDA (agora recebe 'marca' como parâmetro)
+function validarProduto({ nome, preco, marca }) {
   const erros = {};
 
   // Nome: obrigatório, string, trim, não vazio, 2 a 100 caracteres
@@ -85,13 +77,25 @@ function validarProduto({ nome, preco }) {
     erros.preco = "O campo deve ter no máximo 2 casas decimais.";
   }
 
+  // Validação de marca
+  if (marca === undefined) {
+    erros.marca = "O campo é obrigatório.";
+  } else if (typeof marca !== "string") {
+    erros.marca = "O campo deve ser uma string.";
+  } else {
+    const marcaLimpa = marca.trim();
+    if (marcaLimpa === "") {
+      erros.marca = "O campo não pode ser vazio.";
+    } else if (marcaLimpa.length < 2 || marcaLimpa.length > 50) {
+      erros.marca = "A marca deve possuir entre 2 e 50 caracteres.";
+    }
+  }
   return erros;
 }
 
-// Rota GET (coleção), com filtros, busca, ordenação e paginação
-// GET não altera nem salva o arquivo
+// Rota GET (coleção)
 app.get('/api/produtos/', (req, res) => {
-  const { search, preco_minimo, preco_maximo, ordering, page, page_size } = req.query;
+  const { search, marca, preco_minimo, preco_maximo, ordering, page, page_size } = req.query;
 
   const erros = {};
   if (preco_minimo !== undefined && preco_minimo !== "" && isNaN(Number(preco_minimo))) {
@@ -100,9 +104,8 @@ app.get('/api/produtos/', (req, res) => {
   if (preco_maximo !== undefined && preco_maximo !== "" && isNaN(Number(preco_maximo))) {
     erros.preco_maximo = "O valor deve ser numérico.";
   }
-
-  // Ordenação: apenas 'nome' e 'preco' são permitidos; '-' indica decrescente
-  const camposOrdenacao = ["nome", "preco"];
+  
+  const camposOrdenacao = ["nome", "preco", "marca"];
   let campoOrdenacao = null;
   let ordemDesc = false;
   if (ordering !== undefined && ordering !== "") {
@@ -152,10 +155,16 @@ app.get('/api/produtos/', (req, res) => {
     resultado = resultado.filter(p => p.preco <= Number(preco_maximo));
   }
 
-  // 3. Busca por nome (parcial e case-insensitive)
   if (search !== undefined && search !== "") {
-    const termo = search.toLowerCase();
-    resultado = resultado.filter(p => p.nome.toLowerCase().includes(termo));
+  const termo = search.toLowerCase();
+  resultado = resultado.filter(p =>
+    p.nome.toLowerCase().includes(termo) ||
+    (p.marca && p.marca.toLowerCase().includes(termo))
+    );
+  }
+  if (marca !== undefined && marca !== "") {
+  const termoMarca = marca.toLowerCase();
+  resultado = resultado.filter(p => p.marca && p.marca.toLowerCase() === termoMarca);
   }
 
   // 4. Ordenação
@@ -164,9 +173,11 @@ app.get('/api/produtos/', (req, res) => {
       let comparacao;
       if (campoOrdenacao === "preco") {
         comparacao = a.preco - b.preco;
+      } else if (campoOrdenacao === "marca") {
+        comparacao = a.marca.toLowerCase().localeCompare(b.marca.toLowerCase());
       } else {
-        comparacao = a.nome.toLowerCase().localeCompare(b.nome.toLowerCase());
-      }
+        comparacao = a.nome.toLowerCase().localeCompare(b.nome.toLowerCase());  
+      } 
       return ordemDesc ? -comparacao : comparacao;
     });
   }
@@ -191,18 +202,23 @@ app.get('/api/produtos/:id/', (req, res) => {
 
 // Rota POST (criação de recurso)
 app.post('/api/produtos/', (req, res) => {
-  const { nome, preco } = req.body;
+  const { nome, preco, marca } = req.body;
 
-  const erros = validarProduto({ nome, preco });
+  const erros = validarProduto({ nome, preco, marca });
   if (Object.keys(erros).length > 0) {
     return res.status(400).json({ detail: erros });
   }
 
-  // Gera um id incremental com base nos produtos atuais (persistidos)
   const novoId = produtos.length ? Math.max(...produtos.map(p => p.id)) + 1 : 1;
-  const novoProduto = { id: novoId, nome: nome.trim(), preco };
-
+  
+  const novoProduto = {
+    id: novoId,
+    nome: nome.trim(),
+    preco,
+    marca: marca.trim(),
+  };
   produtos.push(novoProduto);
+  
   salvarProdutos(produtos);
 
   res.status(201).json(novoProduto);
@@ -213,15 +229,21 @@ app.put('/api/produtos/:id/', (req, res) => {
   const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
 
-  const { nome, preco } = req.body;
+  const { nome, preco, marca } = req.body;
 
-  const erros = validarProduto({ nome, preco });
+  const erros = validarProduto({ nome, preco, marca });
   if (Object.keys(erros).length > 0) {
     return res.status(400).json({ detail: erros });
   }
 
   // Substitui completamente os dados, mantendo o id
-  produtos[index] = { id: parseInt(req.params.id), nome: nome.trim(), preco };
+  produtos[index] = {
+  id: parseInt(req.params.id),
+  nome: nome.trim(),
+  preco,
+  marca: marca.trim()
+};
+
   salvarProdutos(produtos);
 
   res.json(produtos[index]);

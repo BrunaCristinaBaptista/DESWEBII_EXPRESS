@@ -1,302 +1,374 @@
 [
   {
     "id": 1,
-    "nome": "Pen drive 128 GB Kingston",
-    "preco": 64.99
+    "nome": "Notebook Pro",
+    "preco": 3800,
+    "marca": "Lenovo"
   },
   {
     "id": 2,
     "nome": "Impressora 3D",
-    "preco": 5999.99
+    "preco": 5999.99,
+    "marca": "Creality"
   },
   {
     "id": 3,
     "nome": "Notebook",
-    "preco": 4999.99
+    "preco": 4999.99,
+    "marca": "Lenovo"
   },
   {
     "id": 4,
     "nome": "Mouse USB",
-    "preco": 39.99
+    "preco": 39.99,
+    "marca": "Logitech"
   },
   {
     "id": 5,
     "nome": "Teclado USB",
-    "preco": 89.99
+    "preco": 89.99,
+    "marca": "Multilaser"
   },
   {
     "id": 6,
     "nome": "Monitor Ultra Wide",
-    "preco": 899.99
+    "preco": 899.99,
+    "marca": "LG"
   },
   {
     "id": 7,
     "nome": "Mouse com fio",
-    "preco": 9.99
+    "preco": 9.99,
+    "marca": "Positivo"
   },
   {
     "id": 8,
     "nome": "Teclado com fio",
-    "preco": 30.0
+    "preco": 30,
+    "marca": "Dell"
   },
   {
     "id": 9,
     "nome": "Caneta Bic Azul",
-    "preco": 1.99
+    "preco": 1.99,
+    "marca": "Bic"
   },
   {
     "id": 10,
     "nome": "Lápis 2B",
-    "preco": 1.99
+    "preco": 1.99,
+    "marca": "Faber-Castell"
   },
   {
     "id": 11,
     "nome": "Caderno Universitário 200 folhas",
-    "preco": 19.9
+    "preco": 19.9,
+    "marca": "Tilibra"
   },
   {
     "id": 12,
     "nome": "Apontador Duplo",
-    "preco": 2.5
+    "preco": 2.5,
+    "marca": "Faber-Castell"
   },
   {
     "id": 13,
     "nome": "Borracha branca",
-    "preco": 1.2
+    "preco": 1.2,
+    "marca": "Mercur"
   },
   {
     "id": 14,
     "nome": "Régua 30 cm",
-    "preco": 3.9
+    "preco": 3.9,
+    "marca": "Acrimet"
   },
   {
     "id": 15,
     "nome": "Mochila Escolar",
-    "preco": 129.9
+    "preco": 129.9,
+    "marca": "Jansport"
   },
   {
     "id": 16,
     "nome": "Tablet Android 10”",
-    "preco": 1599.99
+    "preco": 1599.99,
+    "marca": "Samsung"
   },
   {
     "id": 17,
     "nome": "Smartphone Android",
-    "preco": 2399.99
+    "preco": 2399.99,
+    "marca": "Motorola"
   },
   {
     "id": 18,
     "nome": "Carregador USB-C",
-    "preco": 59.9
+    "preco": 59.9,
+    "marca": "Baseus"
   },
   {
     "id": 19,
     "nome": "Caixa de Som Bluetooth",
-    "preco": 299.9
+    "preco": 299.9,
+    "marca": "JBL"
   },
   {
     "id": 20,
     "nome": "Fone de Ouvido Sem Fio",
-    "preco": 499.9
+    "preco": 499.9,
+    "marca": "Sony"
   },
   {
     "id": 21,
     "nome": "Headset Gamer",
-    "preco": 249.9
+    "preco": 249.9,
+    "marca": "HyperX"
   },
   {
     "id": 22,
     "nome": "HD Externo 1TB",
-    "preco": 399.99
+    "preco": 399.99,
+    "marca": "Seagate"
   },
   {
     "id": 23,
     "nome": "SSD 512GB",
-    "preco": 499.99
+    "preco": 499.99,
+    "marca": "Western Digital"
   },
   {
     "id": 24,
     "nome": "Placa de Vídeo RTX 4060",
-    "preco": 2499.99
+    "preco": 2499.99,
+    "marca": "NVIDIA"
   },
   {
     "id": 25,
     "nome": "Processador Ryzen 7",
-    "preco": 1599.99
+    "preco": 1599.99,
+    "marca": "AMD"
   },
   {
     "id": 26,
     "nome": "Memória RAM 16GB",
-    "preco": 299.9
+    "preco": 299.9,
+    "marca": "Corsair"
   },
   {
     "id": 27,
     "nome": "Placa-mãe ASUS",
-    "preco": 899.99
+    "preco": 899.99,
+    "marca": "ASUS"
   },
   {
     "id": 28,
     "nome": "Fonte 650W",
-    "preco": 429.9
+    "preco": 429.9,
+    "marca": "Corsair"
   },
   {
     "id": 29,
     "nome": "Gabinete Gamer",
-    "preco": 349.9
+    "preco": 349.9,
+    "marca": "NZXT"
   },
   {
     "id": 30,
     "nome": "Cooler para CPU",
-    "preco": 599.9
+    "preco": 599.9,
+    "marca": "Cooler Master"
   },
   {
     "id": 31,
     "nome": "Smart TV 50”",
-    "preco": 2799.9
+    "preco": 2799.9,
+    "marca": "Samsung"
   },
   {
     "id": 32,
     "nome": "Controle Remoto Universal",
-    "preco": 49.9
+    "preco": 49.9,
+    "marca": "Philips"
   },
   {
     "id": 33,
     "nome": "Impressora Multifuncional",
-    "preco": 699.99
+    "preco": 699.99,
+    "marca": "Epson"
   },
   {
     "id": 34,
     "nome": "Scanner Portátil",
-    "preco": 899.99
+    "preco": 899.99,
+    "marca": "Canon"
   },
   {
     "id": 35,
     "nome": "Projetor Full HD",
-    "preco": 1999.99
+    "preco": 1999.99,
+    "marca": "BenQ"
   },
   {
     "id": 36,
     "nome": "Lousa Branca 1x1m",
-    "preco": 149.9
+    "preco": 149.9,
+    "marca": "Cortiarte"
   },
   {
     "id": 37,
     "nome": "Marcador de Quadro Branco",
-    "preco": 19.9
+    "preco": 19.9,
+    "marca": "Pilot"
   },
   {
     "id": 38,
     "nome": "Post-it Amarelo",
-    "preco": 12.9
+    "preco": 12.9,
+    "marca": "3M"
   },
   {
     "id": 39,
     "nome": "Clips de Papel",
-    "preco": 5.9
+    "preco": 5.9,
+    "marca": "Tilibra"
   },
   {
     "id": 40,
     "nome": "Grampeador de Mesa",
-    "preco": 29.9
+    "preco": 29.9,
+    "marca": "Tris"
   },
   {
     "id": 41,
     "nome": "Estabilizador 500VA",
-    "preco": 249.9
+    "preco": 249.9,
+    "marca": "SMS"
   },
   {
     "id": 42,
     "nome": "Nobreak 1200VA",
-    "preco": 1199.99
+    "preco": 1199.99,
+    "marca": "APC"
   },
   {
     "id": 43,
     "nome": "Webcam Full HD",
-    "preco": 349.9
+    "preco": 349.9,
+    "marca": "Logitech"
   },
   {
     "id": 44,
     "nome": "Microfone Condensador USB",
-    "preco": 799.9
+    "preco": 799.9,
+    "marca": "Fifine"
   },
   {
     "id": 45,
     "nome": "Tripé Ajustável",
-    "preco": 129.9
+    "preco": 129.9,
+    "marca": "Greika"
   },
   {
     "id": 46,
     "nome": "Notebook Gamer",
-    "preco": 8999.99
+    "preco": 8999.99,
+    "marca": "Acer"
   },
   {
     "id": 47,
     "nome": "Ultrabook Dell XPS",
-    "preco": 7499.99
+    "preco": 7499.99,
+    "marca": "Dell"
   },
   {
     "id": 48,
     "nome": "Chromebook Lenovo",
-    "preco": 2299.9
+    "preco": 2299.9,
+    "marca": "Lenovo"
   },
   {
     "id": 49,
     "nome": "MacBook Air M2",
-    "preco": 10499.99
+    "preco": 10499.99,
+    "marca": "Apple"
   },
   {
     "id": 50,
     "nome": "Servidor Torre",
-    "preco": 14999.99
+    "preco": 14999.99,
+    "marca": "HP"
   },
   {
     "id": 51,
     "nome": "Caixa Organizadora",
-    "preco": 24.9
+    "preco": 24.9,
+    "marca": "Sanremo"
   },
   {
     "id": 52,
     "nome": "Estojo Escolar",
-    "preco": 39.9
+    "preco": 39.9,
+    "marca": "DAC"
   },
   {
     "id": 53,
     "nome": "Tesoura Escolar",
-    "preco": 7.9
+    "preco": 7.9,
+    "marca": "Tramontina"
   },
   {
     "id": 54,
     "nome": "Cola Branca 90g",
-    "preco": 4.9
+    "preco": 4.9,
+    "marca": "Tenaz"
   },
   {
     "id": 55,
     "nome": "Agenda 2025",
-    "preco": 59.9
+    "preco": 59.9,
+    "marca": "Foroni"
   },
   {
     "id": 56,
     "nome": "Plastificadora A4",
-    "preco": 399.9
+    "preco": 399.9,
+    "marca": "Aurora"
   },
   {
     "id": 57,
     "nome": "Calculadora Científica",
-    "preco": 129.9
+    "preco": 129.9,
+    "marca": "Casio"
   },
   {
     "id": 58,
     "nome": "Cadeira Gamer",
-    "preco": 1199.99
+    "preco": 1199.99,
+    "marca": "ThunderX3"
   },
   {
     "id": 59,
     "nome": "Mesa para Computador",
-    "preco": 499.9
+    "preco": 499.9,
+    "marca": "Kappesberg"
   },
   {
     "id": 60,
     "nome": "Cadeira de Escritório",
-    "preco": 699.9
+    "preco": 699.9,
+    "marca": "Flexform"
+  },
+  {
+    "id": 61,
+    "nome": "Monitor Ultra",
+    "preco": 1200,
+    "marca": "Dell"
+  },
+  {
+    "id": 62,
+    "nome": "Notebook Pro",
+    "preco": 3800,
+    "marca": "Lenovo"
   }
 ]
