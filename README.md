@@ -971,3 +971,773 @@ Feito os testes:
 | **09. Ordenação decrescente por marca** | GET | `/api/produtos/?ordering=-marca` | — | `200 OK` | Lista em ordem reversa de marca (Z→A) |
 | **10. Busca textual pela marca** | GET | `/api/produtos/?search=dell` | — | `200 OK` | Encontra produtos cuja marca contenha "dell" |
 | **11. Busca sem resultados** | GET | `/api/produtos/?search=termoinexistente` | — | `200 OK` | `results` vazia |
+
+# Documentação Aula 15 — Adicionando estoque
+
+Criação de `/aula15_Adicionando_estoque.js` (Cópia da `/aula14_Adicionando_marca.js`)
+
+Mudança nos comentários iniciais:
+
+```jsx
+// Aula 15 — Adicionando controle de estoque
+// O produto passa a ter o campo 'estoque' (além da 'marca' adicionada na aula anterior).
+// O req.body em POST e PUT passa a extrair 'estoque', salvando-o como um número inteiro.
+//
+// Validação  : O campo estoque é obrigatório, deve ser um número inteiro e não pode ser negativo.
+// Filtros    : Adicionados 'estoque_minimo' e 'estoque_maximo' (aceitam apenas inteiros positivos).
+// Busca      : search (parcial, case-insensitive, em 'nome' e 'marca').
+// Ordenação  : permite ordenar por 'nome', 'preco', 'marca' e agora também por 'estoque'.
+// Paginação  : page (padrão 1), page_size (padrão 10, máximo 100).
+// Erros      : {"detail": "..."} ou {"detail": {campo: "mensagem"}}.
+// Persistência: produtos_15.json (fs/path); GET não grava; POST, PUT e DELETE gravam.
+//
+// Rodar servidor:
+// node Aula15_adicionando_estoque.js
+```
+
+criação de `/produtos_15.json`  com a mudança na estrutura:
+
+```jsx
+[
+  {
+    "id": 1,
+    "nome": "Notebook Pro",
+    "preco": 3800,
+    "marca": "Lenovo",
+    "estoque": 15
+  },
+  {
+    "id": 2,
+    "nome": "Impressora 3D",
+    "preco": 5999.99,
+    "marca": "Creality",
+    "estoque": 5
+  },
+  {
+    "id": 3,
+    "nome": "Notebook",
+    "preco": 4999.99,
+    "marca": "Lenovo",
+    "estoque": 12
+  },
+  {
+    "id": 4,
+    "nome": "Mouse USB",
+    "preco": 39.99,
+    "marca": "Logitech",
+    "estoque": 150
+  },
+  {
+    "id": 5,
+    "nome": "Teclado USB",
+    "preco": 89.99,
+    "marca": "Multilaser",
+    "estoque": 80
+  },
+  {
+    "id": 6,
+    "nome": "Monitor Ultra Wide",
+    "preco": 899.99,
+    "marca": "LG",
+    "estoque": 25
+  },
+  {
+    "id": 7,
+    "nome": "Mouse com fio",
+    "preco": 9.99,
+    "marca": "Positivo",
+    "estoque": 200
+  },
+  {
+    "id": 8,
+    "nome": "Teclado com fio",
+    "preco": 30,
+    "marca": "Dell",
+    "estoque": 100
+  },
+  {
+    "id": 9,
+    "nome": "Caneta Bic Azul",
+    "preco": 1.99,
+    "marca": "Bic",
+    "estoque": 500
+  },
+  {
+    "id": 10,
+    "nome": "Lápis 2B",
+    "preco": 1.99,
+    "marca": "Faber-Castell",
+    "estoque": 450
+  },
+  {
+    "id": 11,
+    "nome": "Caderno Universitário 200 folhas",
+    "preco": 19.9,
+    "marca": "Tilibra",
+    "estoque": 300
+  },
+  {
+    "id": 12,
+    "nome": "Apontador Duplo",
+    "preco": 2.5,
+    "marca": "Faber-Castell",
+    "estoque": 120
+  },
+  {
+    "id": 13,
+    "nome": "Borracha branca",
+    "preco": 1.2,
+    "marca": "Mercur",
+    "estoque": 600
+  },
+  {
+    "id": 14,
+    "nome": "Régua 30 cm",
+    "preco": 3.9,
+    "marca": "Acrimet",
+    "estoque": 180
+  },
+  {
+    "id": 15,
+    "nome": "Mochila Escolar",
+    "preco": 129.9,
+    "marca": "Jansport",
+    "estoque": 45
+  },
+  {
+    "id": 16,
+    "nome": "Tablet Android 10”",
+    "preco": 1599.99,
+    "marca": "Samsung",
+    "estoque": 30
+  },
+  {
+    "id": 17,
+    "nome": "Smartphone Android",
+    "preco": 2399.99,
+    "marca": "Motorola",
+    "estoque": 55
+  },
+  {
+    "id": 18,
+    "nome": "Carregador USB-C",
+    "preco": 59.9,
+    "marca": "Baseus",
+    "estoque": 210
+  },
+  {
+    "id": 19,
+    "nome": "Caixa de Som Bluetooth",
+    "preco": 299.9,
+    "marca": "JBL",
+    "estoque": 85
+  },
+  {
+    "id": 20,
+    "nome": "Fone de Ouvido Sem Fio",
+    "preco": 499.9,
+    "marca": "Sony",
+    "estoque": 140
+  },
+  {
+    "id": 21,
+    "nome": "Headset Gamer",
+    "preco": 249.9,
+    "marca": "HyperX",
+    "estoque": 65
+  },
+  {
+    "id": 22,
+    "nome": "HD Externo 1TB",
+    "preco": 399.99,
+    "marca": "Seagate",
+    "estoque": 90
+  },
+  {
+    "id": 23,
+    "nome": "SSD 512GB",
+    "preco": 499.99,
+    "marca": "Western Digital",
+    "estoque": 110
+  },
+  {
+    "id": 24,
+    "nome": "Placa de Vídeo RTX 4060",
+    "preco": 2499.99,
+    "marca": "NVIDIA",
+    "estoque": 18
+  },
+  {
+    "id": 25,
+    "nome": "Processador Ryzen 7",
+    "preco": 1599.99,
+    "marca": "AMD",
+    "estoque": 40
+  },
+  {
+    "id": 26,
+    "nome": "Memória RAM 16GB",
+    "preco": 299.9,
+    "marca": "Corsair",
+    "estoque": 150
+  },
+  {
+    "id": 27,
+    "nome": "Placa-mãe ASUS",
+    "preco": 899.99,
+    "marca": "ASUS",
+    "estoque": 35
+  },
+  {
+    "id": 28,
+    "nome": "Fonte 650W",
+    "preco": 429.9,
+    "marca": "Corsair",
+    "estoque": 70
+  },
+  {
+    "id": 29,
+    "nome": "Gabinete Gamer",
+    "preco": 349.9,
+    "marca": "NZXT",
+    "estoque": 50
+  },
+  {
+    "id": 30,
+    "nome": "Cooler para CPU",
+    "preco": 599.9,
+    "marca": "Cooler Master",
+    "estoque": 60
+  },
+  {
+    "id": 31,
+    "nome": "Smart TV 50”",
+    "preco": 2799.9,
+    "marca": "Samsung",
+    "estoque": 15
+  },
+  {
+    "id": 32,
+    "nome": "Controle Remoto Universal",
+    "preco": 49.9,
+    "marca": "Philips",
+    "estoque": 130
+  },
+  {
+    "id": 33,
+    "nome": "Impressora Multifuncional",
+    "preco": 699.99,
+    "marca": "Epson",
+    "estoque": 25
+  },
+  {
+    "id": 34,
+    "nome": "Scanner Portátil",
+    "preco": 899.99,
+    "marca": "Canon",
+    "estoque": 12
+  },
+  {
+    "id": 35,
+    "nome": "Projetor Full HD",
+    "preco": 1999.99,
+    "marca": "BenQ",
+    "estoque": 8
+  },
+  {
+    "id": 36,
+    "nome": "Lousa Branca 1x1m",
+    "preco": 149.9,
+    "marca": "Cortiarte",
+    "estoque": 20
+  },
+  {
+    "id": 37,
+    "nome": "Marcador de Quadro Branco",
+    "preco": 19.9,
+    "marca": "Pilot",
+    "estoque": 250
+  },
+  {
+    "id": 38,
+    "nome": "Post-it Amarelo",
+    "preco": 12.9,
+    "marca": "3M",
+    "estoque": 400
+  },
+  {
+    "id": 39,
+    "nome": "Clips de Papel",
+    "preco": 5.9,
+    "marca": "Tilibra",
+    "estoque": 350
+  },
+  {
+    "id": 40,
+    "nome": "Grampeador de Mesa",
+    "preco": 29.9,
+    "marca": "Tris",
+    "estoque": 85
+  },
+  {
+    "id": 41,
+    "nome": "Estabilizador 500VA",
+    "preco": 249.9,
+    "marca": "SMS",
+    "estoque": 60
+  },
+  {
+    "id": 42,
+    "nome": "Nobreak 1200VA",
+    "preco": 1199.99,
+    "marca": "APC",
+    "estoque": 10
+  },
+  {
+    "id": 43,
+    "nome": "Webcam Full HD",
+    "preco": 349.9,
+    "marca": "Logitech",
+    "estoque": 45
+  },
+  {
+    "id": 44,
+    "nome": "Microfone Condensador USB",
+    "preco": 799.9,
+    "marca": "Fifine",
+    "estoque": 30
+  },
+  {
+    "id": 45,
+    "nome": "Tripé Ajustável",
+    "preco": 129.9,
+    "marca": "Greika",
+    "estoque": 75
+  },
+  {
+    "id": 46,
+    "nome": "Notebook Gamer",
+    "preco": 8999.99,
+    "marca": "Acer",
+    "estoque": 12
+  },
+  {
+    "id": 47,
+    "nome": "Ultrabook Dell XPS",
+    "preco": 7499.99,
+    "marca": "Dell",
+    "estoque": 7
+  },
+  {
+    "id": 48,
+    "nome": "Chromebook Lenovo",
+    "preco": 2299.9,
+    "marca": "Lenovo",
+    "estoque": 28
+  },
+  {
+    "id": 49,
+    "nome": "MacBook Air M2",
+    "preco": 10499.99,
+    "marca": "Apple",
+    "estoque": 14
+  },
+  {
+    "id": 50,
+    "nome": "Servidor Torre",
+    "preco": 14999.99,
+    "marca": "HP",
+    "estoque": 4
+  },
+  {
+    "id": 51,
+    "nome": "Caixa Organizadora",
+    "preco": 24.9,
+    "marca": "Sanremo",
+    "estoque": 150
+  },
+  {
+    "id": 52,
+    "nome": "Estojo Escolar",
+    "preco": 39.9,
+    "marca": "DAC",
+    "estoque": 90
+  },
+  {
+    "id": 53,
+    "nome": "Tesoura Escolar",
+    "preco": 7.9,
+    "marca": "Tramontina",
+    "estoque": 180
+  },
+  {
+    "id": 54,
+    "nome": "Cola Branca 90g",
+    "preco": 4.9,
+    "marca": "Tenaz",
+    "estoque": 220
+  },
+  {
+    "id": 55,
+    "nome": "Agenda 2025",
+    "preco": 59.9,
+    "marca": "Foroni",
+    "estoque": 160
+  },
+  {
+    "id": 56,
+    "nome": "Plastificadora A4",
+    "preco": 399.9,
+    "marca": "Aurora",
+    "estoque": 15
+  },
+  {
+    "id": 57,
+    "nome": "Calculadora Científica",
+    "preco": 129.9,
+    "marca": "Casio",
+    "estoque": 85
+  },
+  {
+    "id": 58,
+    "nome": "Cadeira Gamer",
+    "preco": 1199.99,
+    "marca": "ThunderX3",
+    "estoque": 22
+  },
+  {
+    "id": 59,
+    "nome": "Mesa para Computador",
+    "preco": 499.9,
+    "marca": "Kappesberg",
+    "estoque": 18
+  },
+  {
+    "id": 60,
+    "nome": "Cadeira de Escritório",
+    "preco": 699.9,
+    "marca": "Flexform",
+    "estoque": 35
+  },
+  {
+    "id": 61,
+    "nome": "Monitor Ultra",
+    "preco": 1200,
+    "marca": "Dell",
+    "estoque": 20
+  }
+]
+```
+
+mudança para ligar ao /produtos_15.json e não no /produtos_14.json
+
+```jsx
+const ARQUIVO = path.join(__dirname, 'produtos_15.json');
+```
+
+mudança na ROTA POST
+
+```jsx
+// Rota POST (criação de recurso)
+app.post('/api/produtos/', (req, res) => {
+  const { nome, preco, marca } = req.body;
+
+  const erros = validarProduto({ nome, preco, marca });
+  if (Object.keys(erros).length > 0) {
+    return res.status(400).json({ detail: erros });
+  }
+
+  const novoId = produtos.length ? Math.max(...produtos.map(p => p.id)) + 1 : 1;
+  
+  const novoProduto = {
+    id: novoId,
+    nome: nome.trim(),
+    preco,
+    marca: marca.trim(),
+  };
+  produtos.push(novoProduto);
+  
+  salvarProdutos(produtos);
+
+  res.status(201).json(novoProduto);
+});
+```
+
+Para:
+
+```jsx
+app.post('/api/produtos/', (req, res) => {
+  const { nome, preco, marca, estoque } = req.body;
+
+  const erros = validarProduto({ nome, preco, marca, estoque });
+  if (Object.keys(erros).length > 0) {
+    return res.status(400).json({ detail: erros });
+}
+
+  const novoId = produtos.length ? Math.max(...produtos.map(p => p.id)) + 1 : 1;
+  
+  const novoProduto = {
+  id: novoId,
+  nome: nome.trim(),
+  preco,
+  marca: marca.trim(),
+  estoque: Number(estoque),
+};
+	produtos.push(novoProduto);
+  
+  salvarProdutos(produtos);
+
+  res.status(201).json(novoProduto);
+});
+```
+
+Mudança na rota PUT:
+
+```jsx
+// Rota PUT (atualização completa do recurso)
+app.put('/api/produtos/:id/', (req, res) => {
+  const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
+  if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
+
+  const { nome, preco, marca } = req.body;
+
+  const erros = validarProduto({ nome, preco, marca });
+  if (Object.keys(erros).length > 0) {
+    return res.status(400).json({ detail: erros });
+  }
+
+  // Substitui completamente os dados, mantendo o id
+  produtos[index] = {
+  id: parseInt(req.params.id),
+  nome: nome.trim(),
+  preco,
+  marca: marca.trim()
+};
+
+  salvarProdutos(produtos);
+
+  res.json(produtos[index]);
+});
+```
+
+Para:
+
+```jsx
+// Rota PUT (atualização completa do recurso)
+app.put('/api/produtos/:id/', (req, res) => {
+  const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
+  if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
+
+  const { nome, preco, marca, estoque } = req.body;
+
+  const erros = validarProduto({ nome, preco, marca, estoque });
+if (Object.keys(erros).length > 0) {
+  return res.status(400).json({ detail: erros });
+}
+
+  // Substitui completamente os dados, mantendo o id
+  produtos[index] = {
+  id: parseInt(req.params.id),
+  nome: nome.trim(),
+  preco,
+  marca: marca.trim(),
+  estoque: Number(estoque),
+};
+
+  salvarProdutos(produtos);
+
+  res.json(produtos[index]);
+});
+
+```
+
+arrumar a função ValidarProduto:
+
+```jsx
+function validarProduto({ nome, preco, marca, estoque }) {
+
+```
+
+e acrescentar: 
+
+```jsx
+// Validação de estoque
+if (estoque === undefined) {
+  erros.estoque = "O campo é obrigatório.";
+} else if (typeof estoque !== "number" || !Number.isInteger(estoque)) {
+  erros.estoque = "O campo deve ser um número inteiro.";
+} else if (estoque < 0) {
+  erros.estoque = "O estoque não pode ser negativo.";
+}
+```
+
+mudanda na Rota GET e camposOrdenacao
+
+```jsx
+// Rota GET (coleção)
+app.get("/api/produtos/", (req, res) => {
+  const {
+    search,
+    estoque_minimo,
+    estoque_maximo,
+    marca,
+    preco_minimo,
+    preco_maximo,
+    ordering,
+    page,
+    page_size,
+  } = req.query;
+
+  const erros = {};
+  if (
+    preco_minimo !== undefined &&
+    preco_minimo !== "" &&
+    isNaN(Number(preco_minimo))
+  ) {
+    erros.preco_minimo = "O valor deve ser numérico.";
+  }
+  if (
+    preco_maximo !== undefined &&
+    preco_maximo !== "" &&
+    isNaN(Number(preco_maximo))
+  ) {
+    erros.preco_maximo = "O valor deve ser numérico.";
+  }
+
+  if (estoque_minimo !== undefined && estoque_minimo !== "") {
+    if (!/^[0-9]+$/.test(estoque_minimo)) {
+      erros.estoque_minimo = "O valor deve ser um número inteiro não negativo.";
+    }
+  }
+  if (estoque_maximo !== undefined && estoque_maximo !== "") {
+    if (!/^[0-9]+$/.test(estoque_maximo)) {
+      erros.estoque_maximo = "O valor deve ser um número inteiro não negativo.";
+    }
+  }
+
+  const camposOrdenacao = ["nome", "preco", "marca", "estoque"];
+  let campoOrdenacao = null;
+  let ordemDesc = false;
+  if (ordering !== undefined && ordering !== "") {
+    const valor = ordering.startsWith("-") ? ordering.slice(1) : ordering;
+    const desc = ordering.startsWith("-");
+    if (!camposOrdenacao.includes(valor)) {
+      erros.ordering = "Campo de ordenação inválido.";
+    } else {
+      campoOrdenacao = valor;
+      ordemDesc = desc;
+    }
+  }
+    
+
+  // Paginação: page (padrão 1) e page_size (padrão 10, máximo 100)
+  let pagina = 1;
+  let tamanhoPagina = 10;
+  if (page !== undefined && page !== "") {
+    if (!/^[1-9][0-9]*$/.test(page)) {
+      erros.page = "O campo page deve ser um inteiro positivo.";
+    } else {
+      pagina = parseInt(page, 10);
+    }
+  }
+  if (page_size !== undefined && page_size !== "") {
+    if (!/^[1-9][0-9]*$/.test(page_size)) {
+      erros.page_size = "O campo page_size deve ser um inteiro positivo.";
+    } else {
+      tamanhoPagina = parseInt(page_size, 10);
+      if (tamanhoPagina > 100) {
+        erros.page_size = "O campo page_size não pode passar de 100.";
+      }
+    }
+  }
+
+  if (Object.keys(erros).length > 0) {
+    return res.status(400).json({ detail: erros });
+  }
+
+  // 1. Copia a coleção
+  let resultado = [...produtos];
+
+  // 2. Filtros por preço
+  if (preco_minimo !== undefined && preco_minimo !== "") {
+    resultado = resultado.filter((p) => p.preco >= Number(preco_minimo));
+  }
+  if (preco_maximo !== undefined && preco_maximo !== "") {
+    resultado = resultado.filter((p) => p.preco <= Number(preco_maximo));
+  }
+  if (estoque_minimo !== undefined && estoque_minimo !== "") {
+    resultado = resultado.filter((p) => p.estoque >= parseInt(estoque_minimo, 10));
+  }
+  if (estoque_maximo !== undefined && estoque_maximo !== "") {
+    resultado = resultado.filter((p) => p.estoque <= parseInt(estoque_maximo, 10));
+  }
+
+  if (search !== undefined && search !== "") {
+    const termo = search.toLowerCase();
+    resultado = resultado.filter(
+      (p) =>
+        p.nome.toLowerCase().includes(termo) ||
+        (p.marca && p.marca.toLowerCase().includes(termo)),
+    );
+  }
+  if (marca !== undefined && marca !== "") {
+    const termoMarca = marca.toLowerCase();
+    resultado = resultado.filter(
+      (p) => p.marca && p.marca.toLowerCase() === termoMarca,
+    );
+  }
+
+  // 4. Ordenação
+  if (campoOrdenacao) {
+    resultado.sort((a, b) => {
+      let comparacao;
+      if (campoOrdenacao === "preco") {
+        comparacao = a.preco - b.preco;
+      } else if (campoOrdenacao === "estoque") {
+        comparacao = a.estoque - b.estoque;  
+      } else if (campoOrdenacao === "marca") {
+        comparacao = a.marca.toLowerCase().localeCompare(b.marca.toLowerCase());
+      } else {
+        comparacao = a.nome.toLowerCase().localeCompare(b.nome.toLowerCase());
+      }
+      return ordemDesc ? -comparacao : comparacao;
+    });
+  }
+
+  // 5. total_pages calculado sobre o total já filtrado/pesquisado/ordenado
+  const totalParaPaginacao = resultado.length;
+  const totalPages = Math.ceil(totalParaPaginacao / tamanhoPagina);
+
+  // 6. Aplica o corte da página (slice)
+  const inicio = (pagina - 1) * tamanhoPagina;
+  const itensDaPagina = resultado.slice(inicio, inicio + tamanhoPagina);
+
+  res.json({
+    page: pagina,
+    page_size: tamanhoPagina,
+    total_pages: totalPages,
+    results: itensDaPagina,
+  });
+});
+```
+
+```bash
+node aula15_Adicionando_estoque.js
+```
+
+testes:
+
+| **Cenário de Teste** | **Método** | **URL** | **Corpo (JSON)** | **Status Esperado** | **O que validar** |
+| --- | --- | --- | --- | --- | --- |
+| **01. Criar com estoque válido** | POST | `/api/produtos/` | `{"nome": "Mouse Sem Fio", "preco": 80.0, "marca": "Logitech", "estoque": 25}` | `201 Created` | Retorna produto com `"estoque": 25` |
+| **02. Criar com estoque zero** | POST | `/api/produtos/` | `{"nome": "Teclado Mecânico", "preco": 250.0, "marca": "Keychron", "estoque": 0}` | `201 Created` | Sucesso (`estoque: 0` é válido) |
+| **03. Criar com estoque negativo** | POST | `/api/produtos/` | `{"nome": "Fone", "preco": 150.0, "marca": "Sony", "estoque": -5}` | `400 Bad Request` | `detail.estoque` avisa que não pode ser negativo |
+| **04. Criar com tipo inválido** | POST | `/api/produtos/` | `{"nome": "Fone", "preco": 150.0, "marca": "Sony", "estoque": "muitos"}` | `400 Bad Request` | `detail.estoque` avisa que deve ser inteiro |
+| **05. Filtrar por estoque mínimo** | GET | `/api/produtos/?estoque_minimo=10` | — | `200 OK` | Apenas produtos com estoque >= 10 |
+| **06. Filtrar por estoque máximo** | GET | `/api/produtos/?estoque_maximo=5` | — | `200 OK` | Apenas produtos com estoque <= 5 (itens acabando) |
+| **07. Filtrar por faixa de estoque** | GET | `/api/produtos/?estoque_minimo=10&estoque_maximo=30` | — | `200 OK` | Apenas produtos no intervalo [10, 30] |
+| **08. Ordenar crescente por estoque** | GET | `/api/produtos/?ordering=estoque` | — | `200 OK` | Do menor estoque para o maior |
+| **09. Ordenar decrescente por estoque** | GET | `/api/produtos/?ordering=-estoque` | — | `200 OK` | Do maior estoque para o menor |
+| **10. Combinar marca, preço e estoque** | GET | `/api/produtos/?marca=Dell&preco_minimo=1000&estoque_minimo=1` | — | `200 OK` | Produtos Dell caros que estão disponíveis |
+
+[http://127.0.0.1:3000/api/produtos/](http://127.0.0.1:3000/api/produtos/)
