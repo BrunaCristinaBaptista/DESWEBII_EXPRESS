@@ -364,11 +364,5 @@
     "nome": "Monitor Ultra",
     "preco": 1200,
     "marca": "Dell"
-  },
-  {
-    "id": 62,
-    "nome": "Notebook Pro",
-    "preco": 3800,
-    "marca": "Lenovo"
   }
 ]

@@ -1,127 +1,8 @@
-# Exemplos de Express das aulas
-
-## Visão geral
-
-Este projeto reúne exemplos usados nas aulas para demonstrar a construção de APIs com Express,
-começando com rotas básicas e avançando de forma incremental por filtros, busca, ordenação,
-paginação e persistência em JSON.
-
-A sequência é acumulativa: cada aula mantém tudo o que existe na anterior e acrescenta um
-novo conceito. A `aula12` é a última aula conceitual e a `aula13` é a consolidação final.
-
-## Requisitos
-
-- Node.js 18 ou superior
-- npm
-
-## Instalação
-
-1. Clone o repositório:
-
-   ```bash
-   git clone https://github.com/marrcandre/express-bsi4.git
-   cd express-bsi4
-   ```
-
-2. Instale as dependências:
-
-   ```bash
-   npm install
-   ```
-
-## Como executar
-
-Cada arquivo representa um exemplo independente. Para executar, escolha um dos arquivos e rode
-com Node.js.
-
-Exemplo com a aula básica:
-
-```bash
-node aula2_api_basica_get_colecao.js
-```
-
-Para executar outro exemplo, substitua o nome do arquivo:
-
-```bash
-node aula13_api_completa.js
-```
-
-Por padrão, a API será iniciada na porta configurada em cada exemplo.
-
-## Estrutura dos exemplos
-
-Sequência conceitual incremental:
-
-- aula2_api_basica_get_colecao.js   — GET da coleção (5 produtos em memória)
-- aula3_get_por_id.js               — GET por ID (5 em memória)
-- aula4_post.js                     — POST (criação; 5 em memória)
-- aula5_put.js                      — PUT (atualização completa; 5 em memória)
-- aula6_delete.js                   — DELETE (remoção; 5 em memória)
-- aula7_validacao.js                — validação de nome e preço (5 em memória)
-- aula8_filtros.js                  — filtros de preço (5 em memória)
-- aula9_busca.js                    — busca por nome (5 em memória)
-- aula10_ordenacao.js               — ordenação (5 em memória)
-- aula11_persistencia_json.js       — persistência em arquivo JSON (60 produtos)
-- aula12_paginacao.js               — paginação (60 produtos persistidos)
-- aula13_api_completa.js            — API completa (consolidação final)
-
-## Dados
-
-O arquivo `produtos.json` é a fonte de dados usada a partir da Aula 11 (persistência), contendo o
-**dataset-base compartilhado de 60 produtos** (`{id, nome, preco}`, ids 1–60). Esse mesmo arquivo é a base
-de testes dos três backends (Express, FastAPI e Django REST). As aulas 2–10 usam os 5 produtos definidos
-no próprio código, apenas para fins didáticos.
-
-## Testes HTTP didáticos com Bruno
-
-As coleções de testes ficam em `http/express/` (formato nativo do [Bruno](https://www.usebruno.com/),
-versionáveis no repositório). Cada pasta corresponde a uma aula e reúne as requisições HTTP que
-exercem os endpoints daquela aula, com asserções de status/campos/estrutura/erros.
-
-- `Aula 02` — GET da coleção (5 em memória)
-- `Aula 03` — GET por ID (inclui caso 404)
-- `Aula 04` — POST (criação)
-- `Aula 05` — PUT (atualização completa)
-- `Aula 06` — DELETE (remoção)
-- `Aula 07` — validação de `nome` e `preco` (erros 400)
-- `Aula 08` — filtros de preço
-- `Aula 09` — busca por nome
-- `Aula 10` — ordenação
-- `Aula 11` — persistência em `produtos.json` (60 produtos)
-- `Aula 12` — paginação
-- `Aula 13` — integração (API completa)
-
-Como executar:
-
-1. Instale o app [Bruno](https://usebruno.com/) (desktop) — a coleção abre como pasta (`http/express/`).
-2. Abra a coleção e **selecione o ambiente `Local`** no seletor de ambientes (escopo da coleção).
-   - O ambiente `Local` define `baseUrl = http://localhost:3000`.
-   - As requisições usam `{{baseUrl}}/api/produtos/`, então **não é preciso editar cada requisição**.
-   - Sem o ambiente selecionado, o Bruno manda literalmente `{{baseUrl}}` como hostname e o erro fica:
-     `getaddrinfo ENOTFOUND {{baseurl}}`.
-3. Inicie a aula correspondente:
-   ```bash
-   node aula2_api_basica_get_colecao.js      # ou a aula desejada (2 a 13)
-   ```
-4. Execute as requisições daquela pasta (o "Collection Runner" executa a pasta inteira).
-
-Observações:
-- Cada aula é um servidor independente na porta 3000 — execute uma por vez, usando a pasta que
-  corresponde ao arquivo iniciado.
-- As aulas 2–10 usam dados em memória (5 produtos definidos no código). As aulas 11–13 leem/gravam
-  `produtos.json` (60 produtos); os testes dessas aulas criam e removem o mesmo recurso temporário
-  (id 61, seguinte ao dataset-base), de modo que `produtos.json` termina no estado-base (60 produtos,
-  ids 1–60) ao final da execução.
-- A coleção acompanha a progressão: Aulas 2–10 respondem com array simples; a partir da Aula 12 o GET
-  passa a ser paginado ({ page, page_size, total_pages, results }), operando sobre os 60 produtos
-  persistidos.
-  
-  
-  # Documentação Aula 14 — Adicionando marca
+# Documentação Aula 14 — Adicionando marca
 
 - Criação de /**Aula14_Adicionando_marca.js (Cópia da aula13_api_completa.js)**
     
-    ```json
+    ```jsx
     // Aula 13 — API completa
     // Consolidação final da sequência didática (Aulas 2 a 12), sem conceito novo.
     // Reúne em um único arquivo todos os conceitos trabalhados:
@@ -400,6 +281,693 @@ git commit -m "feat: preparação para os exercicios (aula 14 em diante)”
 
 ```bash
 git remote set-url origin https://github.com/BrunaCristinaBaptista/DESWEBII_EXPRESS.git
+```
+
+```json
 git branch -M main
 git push -u origin main
 ```
+
+Proximos passo: 
+
+Mudança da documentação da lição disso:
+
+```jsx
+// Aula 13 — API completa
+// Consolidação final da sequência didática (Aulas 2 a 12), sem conceito novo.
+// Reúne em um único arquivo todos os conceitos trabalhados:
+//
+//   GET    /api/produtos/          lista paginada (filtros, busca, ordenação, paginação)
+//   GET    /api/produtos/:id/      produto individual
+//   POST   /api/produtos/          cria produto (201)
+//   PUT    /api/produtos/:id/      atualiza produto por completo (200)
+//   DELETE /api/produtos/:id/      remove produto (204 sem corpo)
+//
+// Validação  : nome (obrigatório, string, trim, 2–100) e preco (obrigatório, numérico, >0, ≤2 casas)
+// Filtros    : preco_minimo, preco_maximo
+// Busca      : search (parcial, case-insensitive, em 'nome')
+// Ordenação  : ordering (nome, preco; prefixo '-' = decrescente)
+// Paginação  : page (padrão 1), page_size (padrão 10, máximo 100)
+//              resposta { page, page_size, total_pages, results }
+// Erros      : {"detail": "..."} ou {"detail": {campo: "mensagem"}}
+// Persistência: produtos.json (fs/path); GET não grava; POST, PUT e DELETE gravam.
+//
+// Rodar servidor:
+// node aula13_api_completa.js
+```
+
+para:
+
+```jsx
+// Aula 14 — Adicionando marca
+// O produto passa a ter o campo marca
+// O req.body em POST e PUT passa a extrair marca, e o objeto persistido inclui marca: marca.trim().
+//
+// Validação  : O campo marca tem regras (obrigatório, string, não vazio, tamanho entre 2 e 50)
+// Filtros    : Busca exata pelo nome da marca (case-insensitive)
+// Busca      : search (parcial, case-insensitive, em 'nome' e 'marca')
+// Ordenação  : permite ordenar pelo nome da marca
+// Paginação  : page (padrão 1), page_size (padrão 10, máximo 100)
+// Erros      : {"detail": "..."} ou {"detail": {campo: "mensagem"}}
+// Persistência: produtos_14.json (fs/path); GET não grava; POST, PUT e DELETE gravam.
+//
+// Rodar servidor:
+// node Aula14_adicionando_marca.js
+```
+
+Mudar tambem a função de validação, o que era: 
+
+```jsx
+function validarProduto({ nome, preco }) {
+  const erros = {};
+
+  // Nome: obrigatório, string, trim, não vazio, 2 a 100 caracteres
+  if (nome === undefined) {
+    erros.nome = "O campo é obrigatório.";
+  } else if (typeof nome !== "string") {
+    erros.nome = "O campo deve ser uma string.";
+  } else {
+    const nomeLimpo = nome.trim();
+    if (nomeLimpo === "") {
+      erros.nome = "O campo não pode ser vazio.";
+    } else if (nomeLimpo.length < 2 || nomeLimpo.length > 100) {
+      erros.nome = "O nome deve possuir entre 2 e 100 caracteres.";
+    }
+  }
+
+  // Preço: obrigatório, numérico, maior que zero, no máximo 2 casas decimais
+  if (preco === undefined) {
+    erros.preco = "O campo é obrigatório.";
+  } else if (typeof preco !== "number" || Number.isNaN(preco)) {
+    erros.preco = "O campo deve ser numérico.";
+  } else if (preco <= 0) {
+    erros.preco = "O preço deve ser maior que zero.";
+  } else if (Number(preco.toFixed(2)) !== preco) {
+    erros.preco = "O campo deve ter no máximo 2 casas decimais.";
+  }
+
+  return erros;
+}
+```
+
+passa a ser: 
+
+```jsx
+function validarProduto({ nome, preco, marca }) {
+  const erros = {};
+
+  // Nome: obrigatório, string, trim, não vazio, 2 a 100 caracteres
+  if (nome === undefined) {
+    erros.nome = "O campo é obrigatório.";
+  } else if (typeof nome !== "string") {
+    erros.nome = "O campo deve ser uma string.";
+  } else {
+    const nomeLimpo = nome.trim();
+    if (nomeLimpo === "") {
+      erros.nome = "O campo não pode ser vazio.";
+    } else if (nomeLimpo.length < 2 || nomeLimpo.length > 100) {
+      erros.nome = "O nome deve possuir entre 2 e 100 caracteres.";
+    }
+  }
+
+  // Preço: obrigatório, numérico, maior que zero, no máximo 2 casas decimais
+  if (preco === undefined) {
+    erros.preco = "O campo é obrigatório.";
+  } else if (typeof preco !== "number" || Number.isNaN(preco)) {
+    erros.preco = "O campo deve ser numérico.";
+  } else if (preco <= 0) {
+    erros.preco = "O preço deve ser maior que zero.";
+  } else if (Number(preco.toFixed(2)) !== preco) {
+    erros.preco = "O campo deve ter no máximo 2 casas decimais.";
+  }
+
+  // Validação de marca
+  if (marca === undefined) {
+    erros.marca = "O campo é obrigatório.";
+  } else if (typeof marca !== "string") {
+    erros.marca = "O campo deve ser uma string.";
+  } else {
+    const marcaLimpa = marca.trim();
+    if (marcaLimpa === "") {
+      erros.marca = "O campo não pode ser vazio.";
+    } else if (marcaLimpa.length < 2 || marcaLimpa.length > 50) {
+      erros.marca = "A marca deve possuir entre 2 e 50 caracteres.";
+    }
+  }
+  return erros;
+}
+
+```
+
+Rota get tbm totalmente modificada para ter o campo “marca”
+
+```jsx
+// Rota GET (coleção)
+app.get('/api/produtos/', (req, res) => {
+  const { search, marca, preco_minimo, preco_maximo, ordering, page, page_size } = req.query;
+
+  const erros = {};
+  if (preco_minimo !== undefined && preco_minimo !== "" && isNaN(Number(preco_minimo))) {
+    erros.preco_minimo = "O valor deve ser numérico.";
+  }
+  if (preco_maximo !== undefined && preco_maximo !== "" && isNaN(Number(preco_maximo))) {
+    erros.preco_maximo = "O valor deve ser numérico.";
+  }
+  
+  const camposOrdenacao = ["nome", "preco", "marca"];
+  let campoOrdenacao = null;
+  let ordemDesc = false;
+  if (ordering !== undefined && ordering !== "") {
+    const valor = ordering.startsWith("-") ? ordering.slice(1) : ordering;
+    const desc = ordering.startsWith("-");
+    if (!camposOrdenacao.includes(valor)) {
+      erros.ordering = "Campo de ordenação inválido.";
+    } else {
+      campoOrdenacao = valor;
+      ordemDesc = desc;
+    }
+  }
+
+  // Paginação: page (padrão 1) e page_size (padrão 10, máximo 100)
+  let pagina = 1;
+  let tamanhoPagina = 10;
+  if (page !== undefined && page !== "") {
+    if (!/^[1-9][0-9]*$/.test(page)) {
+      erros.page = "O campo page deve ser um inteiro positivo.";
+    } else {
+      pagina = parseInt(page, 10);
+    }
+  }
+  if (page_size !== undefined && page_size !== "") {
+    if (!/^[1-9][0-9]*$/.test(page_size)) {
+      erros.page_size = "O campo page_size deve ser um inteiro positivo.";
+    } else {
+      tamanhoPagina = parseInt(page_size, 10);
+      if (tamanhoPagina > 100) {
+        erros.page_size = "O campo page_size não pode passar de 100.";
+      }
+    }
+  }
+
+  if (Object.keys(erros).length > 0) {
+    return res.status(400).json({ detail: erros });
+  }
+
+  // 1. Copia a coleção
+  let resultado = [...produtos];
+
+  // 2. Filtros por preço
+  if (preco_minimo !== undefined && preco_minimo !== "") {
+    resultado = resultado.filter(p => p.preco >= Number(preco_minimo));
+  }
+  if (preco_maximo !== undefined && preco_maximo !== "") {
+    resultado = resultado.filter(p => p.preco <= Number(preco_maximo));
+  }
+
+  if (search !== undefined && search !== "") {
+  const termo = search.toLowerCase();
+  resultado = resultado.filter(p =>
+    p.nome.toLowerCase().includes(termo) ||
+    (p.marca && p.marca.toLowerCase().includes(termo))
+    );
+  }
+  if (marca !== undefined && marca !== "") {
+  const termoMarca = marca.toLowerCase();
+  resultado = resultado.filter(p => p.marca && p.marca.toLowerCase() === termoMarca);
+  }
+
+  // 4. Ordenação
+  if (campoOrdenacao) {
+    resultado.sort((a, b) => {
+      let comparacao;
+      if (campoOrdenacao === "preco") {
+        comparacao = a.preco - b.preco;
+      } else if (campoOrdenacao === "marca") {
+        comparacao = a.marca.toLowerCase().localeCompare(b.marca.toLowerCase());
+      } else {
+        comparacao = a.nome.toLowerCase().localeCompare(b.nome.toLowerCase());  
+      } 
+      return ordemDesc ? -comparacao : comparacao;
+    });
+  }
+
+  // 5. total_pages calculado sobre o total já filtrado/pesquisado/ordenado
+  const totalParaPaginacao = resultado.length;
+  const totalPages = Math.ceil(totalParaPaginacao / tamanhoPagina);
+
+  // 6. Aplica o corte da página (slice)
+  const inicio = (pagina - 1) * tamanhoPagina;
+  const itensDaPagina = resultado.slice(inicio, inicio + tamanhoPagina);
+
+  res.json({ page: pagina, page_size: tamanhoPagina, total_pages: totalPages, results: itensDaPagina });
+});
+
+// Rota GET por ID (parâmetro de rota)
+app.get('/api/produtos/:id/', (req, res) => {
+  const produto = produtos.find(p => p.id === parseInt(req.params.id));
+  if (!produto) return res.status(404).json({ detail: "Produto não encontrado." });
+  res.json(produto);
+});
+```
+
+O mesmo com a parte da Rota POST
+
+```jsx
+// Rota POST (criação de recurso)
+app.post('/api/produtos/', (req, res) => {
+  const { nome, preco, marca } = req.body;
+
+  const erros = validarProduto({ nome, preco, marca });
+  if (Object.keys(erros).length > 0) {
+    return res.status(400).json({ detail: erros });
+  }
+
+  const novoId = produtos.length ? Math.max(...produtos.map(p => p.id)) + 1 : 1;
+  
+  const novoProduto = {
+    id: novoId,
+    nome: nome.trim(),
+    preco,
+    marca: marca.trim(),
+  };
+  produtos.push(novoProduto);
+  
+  salvarProdutos(produtos);
+
+  res.status(201).json(novoProduto);
+});
+
+```
+
+Atualização tbm na rota put:
+
+```jsx
+app.put('/api/produtos/:id/', (req, res) => {
+  const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
+  if (index === -1) return res.status(404).json({ detail: "Produto não encontrado." });
+
+  const { nome, preco, marca } = req.body;
+
+  const erros = validarProduto({ nome, preco, marca });
+  if (Object.keys(erros).length > 0) {
+    return res.status(400).json({ detail: erros });
+  }
+
+  // Substitui completamente os dados, mantendo o id
+  produtos[index] = {
+  id: parseInt(req.params.id),
+  nome: nome.trim(),
+  preco,
+  marca: marca.trim()
+};
+
+  salvarProdutos(produtos);
+
+  res.json(produtos[index]);
+});
+```
+
+Modificação no /produtos_14.json
+
+```jsx
+[
+  {
+    "id": 1,
+    "nome": "Pen drive 128 GB Kingston",
+    "preco": 64.99
+    "marca": "Kinston"
+  },
+  {
+    "id": 2,
+    "nome": "Impressora 3D",
+    "preco": 5999.99,
+    "marca": "Creality"
+  },
+  {
+    "id": 3,
+    "nome": "Notebook",
+    "preco": 4999.99,
+    "marca": "Lenovo"
+  },
+  {
+    "id": 4,
+    "nome": "Mouse USB",
+    "preco": 39.99,
+    "marca": "Logitech"
+  },
+  {
+    "id": 5,
+    "nome": "Teclado USB",
+    "preco": 89.99,
+    "marca": "Multilaser"
+  },
+  {
+    "id": 6,
+    "nome": "Monitor Ultra Wide",
+    "preco": 899.99,
+    "marca": "LG"
+  },
+  {
+    "id": 7,
+    "nome": "Mouse com fio",
+    "preco": 9.99,
+    "marca": "Positivo"
+  },
+  {
+    "id": 8,
+    "nome": "Teclado com fio",
+    "preco": 30,
+    "marca": "Dell"
+  },
+  {
+    "id": 9,
+    "nome": "Caneta Bic Azul",
+    "preco": 1.99,
+    "marca": "Bic"
+  },
+  {
+    "id": 10,
+    "nome": "Lápis 2B",
+    "preco": 1.99,
+    "marca": "Faber-Castell"
+  },
+  {
+    "id": 11,
+    "nome": "Caderno Universitário 200 folhas",
+    "preco": 19.9,
+    "marca": "Tilibra"
+  },
+  {
+    "id": 12,
+    "nome": "Apontador Duplo",
+    "preco": 2.5,
+    "marca": "Faber-Castell"
+  },
+  {
+    "id": 13,
+    "nome": "Borracha branca",
+    "preco": 1.2,
+    "marca": "Mercur"
+  },
+  {
+    "id": 14,
+    "nome": "Régua 30 cm",
+    "preco": 3.9,
+    "marca": "Acrimet"
+  },
+  {
+    "id": 15,
+    "nome": "Mochila Escolar",
+    "preco": 129.9,
+    "marca": "Jansport"
+  },
+  {
+    "id": 16,
+    "nome": "Tablet Android 10”",
+    "preco": 1599.99,
+    "marca": "Samsung"
+  },
+  {
+    "id": 17,
+    "nome": "Smartphone Android",
+    "preco": 2399.99,
+    "marca": "Motorola"
+  },
+  {
+    "id": 18,
+    "nome": "Carregador USB-C",
+    "preco": 59.9,
+    "marca": "Baseus"
+  },
+  {
+    "id": 19,
+    "nome": "Caixa de Som Bluetooth",
+    "preco": 299.9,
+    "marca": "JBL"
+  },
+  {
+    "id": 20,
+    "nome": "Fone de Ouvido Sem Fio",
+    "preco": 499.9,
+    "marca": "Sony"
+  },
+  {
+    "id": 21,
+    "nome": "Headset Gamer",
+    "preco": 249.9,
+    "marca": "HyperX"
+  },
+  {
+    "id": 22,
+    "nome": "HD Externo 1TB",
+    "preco": 399.99,
+    "marca": "Seagate"
+  },
+  {
+    "id": 23,
+    "nome": "SSD 512GB",
+    "preco": 499.99,
+    "marca": "Western Digital"
+  },
+  {
+    "id": 24,
+    "nome": "Placa de Vídeo RTX 4060",
+    "preco": 2499.99,
+    "marca": "NVIDIA"
+  },
+  {
+    "id": 25,
+    "nome": "Processador Ryzen 7",
+    "preco": 1599.99,
+    "marca": "AMD"
+  },
+  {
+    "id": 26,
+    "nome": "Memória RAM 16GB",
+    "preco": 299.9,
+    "marca": "Corsair"
+  },
+  {
+    "id": 27,
+    "nome": "Placa-mãe ASUS",
+    "preco": 899.99,
+    "marca": "ASUS"
+  },
+  {
+    "id": 28,
+    "nome": "Fonte 650W",
+    "preco": 429.9,
+    "marca": "Corsair"
+  },
+  {
+    "id": 29,
+    "nome": "Gabinete Gamer",
+    "preco": 349.9,
+    "marca": "NZXT"
+  },
+  {
+    "id": 30,
+    "nome": "Cooler para CPU",
+    "preco": 599.9,
+    "marca": "Cooler Master"
+  },
+  {
+    "id": 31,
+    "nome": "Smart TV 50”",
+    "preco": 2799.9,
+    "marca": "Samsung"
+  },
+  {
+    "id": 32,
+    "nome": "Controle Remoto Universal",
+    "preco": 49.9,
+    "marca": "Philips"
+  },
+  {
+    "id": 33,
+    "nome": "Impressora Multifuncional",
+    "preco": 699.99,
+    "marca": "Epson"
+  },
+  {
+    "id": 34,
+    "nome": "Scanner Portátil",
+    "preco": 899.99,
+    "marca": "Canon"
+  },
+  {
+    "id": 35,
+    "nome": "Projetor Full HD",
+    "preco": 1999.99,
+    "marca": "BenQ"
+  },
+  {
+    "id": 36,
+    "nome": "Lousa Branca 1x1m",
+    "preco": 149.9,
+    "marca": "Cortiarte"
+  },
+  {
+    "id": 37,
+    "nome": "Marcador de Quadro Branco",
+    "preco": 19.9,
+    "marca": "Pilot"
+  },
+  {
+    "id": 38,
+    "nome": "Post-it Amarelo",
+    "preco": 12.9,
+    "marca": "3M"
+  },
+  {
+    "id": 39,
+    "nome": "Clips de Papel",
+    "preco": 5.9,
+    "marca": "Tilibra"
+  },
+  {
+    "id": 40,
+    "nome": "Grampeador de Mesa",
+    "preco": 29.9,
+    "marca": "Tris"
+  },
+  {
+    "id": 41,
+    "nome": "Estabilizador 500VA",
+    "preco": 249.9,
+    "marca": "SMS"
+  },
+  {
+    "id": 42,
+    "nome": "Nobreak 1200VA",
+    "preco": 1199.99,
+    "marca": "APC"
+  },
+  {
+    "id": 43,
+    "nome": "Webcam Full HD",
+    "preco": 349.9,
+    "marca": "Logitech"
+  },
+  {
+    "id": 44,
+    "nome": "Microfone Condensador USB",
+    "preco": 799.9,
+    "marca": "Fifine"
+  },
+  {
+    "id": 45,
+    "nome": "Tripé Ajustável",
+    "preco": 129.9,
+    "marca": "Greika"
+  },
+  {
+    "id": 46,
+    "nome": "Notebook Gamer",
+    "preco": 8999.99,
+    "marca": "Acer"
+  },
+  {
+    "id": 47,
+    "nome": "Ultrabook Dell XPS",
+    "preco": 7499.99,
+    "marca": "Dell"
+  },
+  {
+    "id": 48,
+    "nome": "Chromebook Lenovo",
+    "preco": 2299.9,
+    "marca": "Lenovo"
+  },
+  {
+    "id": 49,
+    "nome": "MacBook Air M2",
+    "preco": 10499.99,
+    "marca": "Apple"
+  },
+  {
+    "id": 50,
+    "nome": "Servidor Torre",
+    "preco": 14999.99,
+    "marca": "HP"
+  },
+  {
+    "id": 51,
+    "nome": "Caixa Organizadora",
+    "preco": 24.9,
+    "marca": "Sanremo"
+  },
+  {
+    "id": 52,
+    "nome": "Estojo Escolar",
+    "preco": 39.9,
+    "marca": "DAC"
+  },
+  {
+    "id": 53,
+    "nome": "Tesoura Escolar",
+    "preco": 7.9,
+    "marca": "Tramontina"
+  },
+  {
+    "id": 54,
+    "nome": "Cola Branca 90g",
+    "preco": 4.9,
+    "marca": "Tenaz"
+  },
+  {
+    "id": 55,
+    "nome": "Agenda 2025",
+    "preco": 59.9,
+    "marca": "Foroni"
+  },
+  {
+    "id": 56,
+    "nome": "Plastificadora A4",
+    "preco": 399.9,
+    "marca": "Aurora"
+  },
+  {
+    "id": 57,
+    "nome": "Calculadora Científica",
+    "preco": 129.9,
+    "marca": "Casio"
+  },
+  {
+    "id": 58,
+    "nome": "Cadeira Gamer",
+    "preco": 1199.99,
+    "marca": "ThunderX3"
+  },
+  {
+    "id": 59,
+    "nome": "Mesa para Computador",
+    "preco": 499.9,
+    "marca": "Kappesberg"
+  },
+  {
+    "id": 60,
+    "nome": "Cadeira de Escritório",
+    "preco": 699.9,
+    "marca": "Flexform"
+  }
+]
+```
+
+node **Aula14_Adicionando_marca.js**
+
+Feito os testes:
+
+| **Cenário de Teste** | **Método** | **URL** | **Corpo (JSON)** | **Status Esperado** | **O que validar** |
+| --- | --- | --- | --- | --- | --- |
+| **01. Criar produto com marca válida** | POST | `/api/produtos/` | `{"nome": "Monitor Ultra", "preco": 1200.0, "marca": "Dell"}` | `201 Created` | Retorna produto com `id` gerado e `"marca": "Dell"` |
+| **02. Criar com marca ausente** | POST | `/api/produtos/` | `{"nome": "Monitor Ultra", "preco": 1200.0}` | `400 Bad Request` | `detail.marca` indica campo obrigatório |
+| **03. Criar com marca vazia/curta** | POST | `/api/produtos/` | `{"nome": "Monitor", "preco": 1000.0, "marca": " "}` | `400 Bad Request` | `detail.marca` indica erro de validação |
+| **04. Atualizar marca via PUT** | PUT | `/api/produtos/1/` | `{"nome": "Notebook Pro", "preco": 3800.0, "marca": "Lenovo"}` | `200 OK` | Produto atualizado com a nova marca |
+| **05. Filtrar por marca existente** | GET | `/api/produtos/?marca=Dell` | — | `200 OK` | Apenas produtos com marca Dell na lista |
+| **06. Filtrar por marca inexistente** | GET | `/api/produtos/?marca=MarcaFantasma` | — | `200 OK` | `results` vazia (`[]`), `total_pages: 0` |
+| **07. Combinar marca e preço** | GET | `/api/produtos/?marca=Dell&preco_minimo=2000` | — | `200 OK` | Produtos Dell com preço >= 2000 |
+| **08. Ordenação crescente por marca** | GET | `/api/produtos/?ordering=marca` | — | `200 OK` | Lista em ordem alfabética de marca (A→Z) |
+| **09. Ordenação decrescente por marca** | GET | `/api/produtos/?ordering=-marca` | — | `200 OK` | Lista em ordem reversa de marca (Z→A) |
+| **10. Busca textual pela marca** | GET | `/api/produtos/?search=dell` | — | `200 OK` | Encontra produtos cuja marca contenha "dell" |
+| **11. Busca sem resultados** | GET | `/api/produtos/?search=termoinexistente` | — | `200 OK` | `results` vazia |
