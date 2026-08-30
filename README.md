@@ -1741,3 +1741,825 @@ testes:
 | **10. Combinar marca, preço e estoque** | GET | `/api/produtos/?marca=Dell&preco_minimo=1000&estoque_minimo=1` | — | `200 OK` | Produtos Dell caros que estão disponíveis |
 
 [http://127.0.0.1:3000/api/produtos/](http://127.0.0.1:3000/api/produtos/)
+
+# Documentação Aula 16 — Adicionando descrição
+
+criação de `/aula16_Adicionando_descricao.js` com os códigos do arquivo `/aula15_Adicionando_estoque.js`
+
+criação do /produtos_16.json com o seguinte conteúdo:
+
+```json
+[
+  {
+    "id": 1,
+    "nome": "Notebook Pro",
+    "preco": 3800,
+    "marca": "Lenovo",
+    "estoque": 15,
+    "descricao": "Notebook de alta performance com tela OLED e processador octa-core."
+  },
+  {
+    "id": 2,
+    "nome": "Impressora 3D",
+    "preco": 5999.99,
+    "marca": "Creality",
+    "estoque": 5,
+    "descricao": "Impressora 3D para prototipagem rápida e criação de peças com alta precisão."
+  },
+  {
+    "id": 3,
+    "nome": "Notebook",
+    "preco": 4999.99,
+    "marca": "Lenovo",
+    "estoque": 12,
+    "descricao": "Notebook ideal para o dia a dia, com excelente custo-benefício."
+  },
+  {
+    "id": 4,
+    "nome": "Mouse USB",
+    "preco": 39.99,
+    "marca": "Logitech",
+    "estoque": 150,
+    "descricao": "Mouse óptico USB com design ergonômico e alta precisão."
+  },
+  {
+    "id": 5,
+    "nome": "Teclado USB",
+    "preco": 89.99,
+    "marca": "Multilaser",
+    "estoque": 80,
+    "descricao": "Teclado padrão ABNT2 com conexão USB, resistente a respingos."
+  },
+  {
+    "id": 6,
+    "nome": "Monitor Ultra Wide",
+    "preco": 899.99,
+    "marca": "LG",
+    "estoque": 25,
+    "descricao": "Monitor Ultra Wide perfeito para multitarefas e imersão visual."
+  },
+  {
+    "id": 7,
+    "nome": "Mouse com fio",
+    "preco": 9.99,
+    "marca": "Positivo",
+    "estoque": 200,
+    "descricao": "Mouse básico com fio, ideal para uso diário em escritórios."
+  },
+  {
+    "id": 8,
+    "nome": "Teclado com fio",
+    "preco": 30,
+    "marca": "Dell",
+    "estoque": 100,
+    "descricao": "Teclado resistente e confortável para digitação contínua."
+  },
+  {
+    "id": 9,
+    "nome": "Caneta Bic Azul",
+    "preco": 1.99,
+    "marca": "Bic",
+    "estoque": 500,
+    "descricao": "Caneta esferográfica clássica com escrita macia e durável."
+  },
+  {
+    "id": 10,
+    "nome": "Lápis 2B",
+    "preco": 1.99,
+    "marca": "Faber-Castell",
+    "estoque": 450,
+    "descricao": "Lápis grafite ideal para escrita, esboços e desenhos."
+  },
+  {
+    "id": 11,
+    "nome": "Caderno Universitário 200 folhas",
+    "preco": 19.9,
+    "marca": "Tilibra",
+    "estoque": 300,
+    "descricao": "Caderno universitário espiral com 200 folhas pautadas e capa dura."
+  },
+  {
+    "id": 12,
+    "nome": "Apontador Duplo",
+    "preco": 2.5,
+    "marca": "Faber-Castell",
+    "estoque": 120,
+    "descricao": "Apontador com depósito duplo e lâmina de alta durabilidade."
+  },
+  {
+    "id": 13,
+    "nome": "Borracha branca",
+    "preco": 1.2,
+    "marca": "Mercur",
+    "estoque": 600,
+    "descricao": "Borracha macia de alta qualidade que não mancha o papel."
+  },
+  {
+    "id": 14,
+    "nome": "Régua 30 cm",
+    "preco": 3.9,
+    "marca": "Acrimet",
+    "estoque": 180,
+    "descricao": "Régua de acrílico resistente para medições precisas e traços retos."
+  },
+  {
+    "id": 15,
+    "nome": "Mochila Escolar",
+    "preco": 129.9,
+    "marca": "Jansport",
+    "estoque": 45,
+    "descricao": "Mochila espaçosa, confortável e resistente para estudantes."
+  },
+  {
+    "id": 16,
+    "nome": "Tablet Android 10”",
+    "preco": 1599.99,
+    "marca": "Samsung",
+    "estoque": 30,
+    "descricao": "Tablet versátil com tela de 10 polegadas para entretenimento e leitura."
+  },
+  {
+    "id": 17,
+    "nome": "Smartphone Android",
+    "preco": 2399.99,
+    "marca": "Motorola",
+    "estoque": 55,
+    "descricao": "Smartphone com tela imersiva, bateria de longa duração e câmera de alta resolução."
+  },
+  {
+    "id": 18,
+    "nome": "Carregador USB-C",
+    "preco": 59.9,
+    "marca": "Baseus",
+    "estoque": 210,
+    "descricao": "Carregador rápido e seguro para dispositivos com entrada USB-C."
+  },
+  {
+    "id": 19,
+    "nome": "Caixa de Som Bluetooth",
+    "preco": 299.9,
+    "marca": "JBL",
+    "estoque": 85,
+    "descricao": "Caixa de som portátil com graves potentes e bateria de longa duração."
+  },
+  {
+    "id": 20,
+    "nome": "Fone de Ouvido Sem Fio",
+    "preco": 499.9,
+    "marca": "Sony",
+    "estoque": 140,
+    "descricao": "Fone de ouvido Bluetooth com cancelamento ativo de ruído."
+  },
+  {
+    "id": 21,
+    "nome": "Headset Gamer",
+    "preco": 249.9,
+    "marca": "HyperX",
+    "estoque": 65,
+    "descricao": "Headset confortável com áudio imersivo e microfone integrado para jogos."
+  },
+  {
+    "id": 22,
+    "nome": "HD Externo 1TB",
+    "preco": 399.99,
+    "marca": "Seagate",
+    "estoque": 90,
+    "descricao": "HD externo compacto para backup seguro de grande volume de arquivos."
+  },
+  {
+    "id": 23,
+    "nome": "SSD 512GB",
+    "preco": 499.99,
+    "marca": "Western Digital",
+    "estoque": 110,
+    "descricao": "SSD de alta velocidade para inicialização rápida do sistema e carregamento de apps."
+  },
+  {
+    "id": 24,
+    "nome": "Placa de Vídeo RTX 4060",
+    "preco": 2499.99,
+    "marca": "NVIDIA",
+    "estoque": 18,
+    "descricao": "Placa de vídeo potente com tecnologia Ray Tracing para rodar os jogos mais recentes."
+  },
+  {
+    "id": 25,
+    "nome": "Processador Ryzen 7",
+    "preco": 1599.99,
+    "marca": "AMD",
+    "estoque": 40,
+    "descricao": "Processador de alto desempenho para multitarefas intensas e games."
+  },
+  {
+    "id": 26,
+    "nome": "Memória RAM 16GB",
+    "preco": 299.9,
+    "marca": "Corsair",
+    "estoque": 150,
+    "descricao": "Módulo de memória RAM rápida e estável para melhorar o desempenho do PC."
+  },
+  {
+    "id": 27,
+    "nome": "Placa-mãe ASUS",
+    "preco": 899.99,
+    "marca": "ASUS",
+    "estoque": 35,
+    "descricao": "Placa-mãe durável com suporte a múltiplas conexões e tecnologias avançadas."
+  },
+  {
+    "id": 28,
+    "nome": "Fonte 650W",
+    "preco": 429.9,
+    "marca": "Corsair",
+    "estoque": 70,
+    "descricao": "Fonte de alimentação com certificação de eficiência 80 Plus Bronze."
+  },
+  {
+    "id": 29,
+    "nome": "Gabinete Gamer",
+    "preco": 349.9,
+    "marca": "NZXT",
+    "estoque": 50,
+    "descricao": "Gabinete com excelente fluxo de ar, painel lateral em vidro temperado e iluminação."
+  },
+  {
+    "id": 30,
+    "nome": "Cooler para CPU",
+    "preco": 599.9,
+    "marca": "Cooler Master",
+    "estoque": 60,
+    "descricao": "Cooler silencioso e eficiente para manter o processador em temperatura ideal."
+  },
+  {
+    "id": 31,
+    "nome": "Smart TV 50”",
+    "preco": 2799.9,
+    "marca": "Samsung",
+    "estoque": 15,
+    "descricao": "Smart TV com resolução 4K, cores vivas e acesso a diversos aplicativos de streaming."
+  },
+  {
+    "id": 32,
+    "nome": "Controle Remoto Universal",
+    "preco": 49.9,
+    "marca": "Philips",
+    "estoque": 130,
+    "descricao": "Controle remoto universal de fácil configuração, compatível com múltiplas marcas."
+  },
+  {
+    "id": 33,
+    "nome": "Impressora Multifuncional",
+    "preco": 699.99,
+    "marca": "Epson",
+    "estoque": 25,
+    "descricao": "Impressora multifuncional tanque de tinta com scanner e conexão Wi-Fi."
+  },
+  {
+    "id": 34,
+    "nome": "Scanner Portátil",
+    "preco": 899.99,
+    "marca": "Canon",
+    "estoque": 12,
+    "descricao": "Scanner portátil compacto para digitalização rápida de documentos em qualquer lugar."
+  },
+  {
+    "id": 35,
+    "nome": "Projetor Full HD",
+    "preco": 1999.99,
+    "marca": "BenQ",
+    "estoque": 8,
+    "descricao": "Projetor de alta definição e brilho para apresentações corporativas e cinema em casa."
+  },
+  {
+    "id": 36,
+    "nome": "Lousa Branca 1x1m",
+    "preco": 149.9,
+    "marca": "Cortiarte",
+    "estoque": 20,
+    "descricao": "Lousa branca com superfície lisa, fácil de escrever e limpar."
+  },
+  {
+    "id": 37,
+    "nome": "Marcador de Quadro Branco",
+    "preco": 19.9,
+    "marca": "Pilot",
+    "estoque": 250,
+    "descricao": "Marcador com tinta vibrante de secagem rápida e fácil remoção a seco."
+  },
+  {
+    "id": 38,
+    "nome": "Post-it Amarelo",
+    "preco": 12.9,
+    "marca": "3M",
+    "estoque": 400,
+    "descricao": "Bloco de notas adesivas para lembretes diários e organização de tarefas."
+  },
+  {
+    "id": 39,
+    "nome": "Clips de Papel",
+    "preco": 5.9,
+    "marca": "Tilibra",
+    "estoque": 350,
+    "descricao": "Clips de metal galvanizado duráveis para organização de papéis."
+  },
+  {
+    "id": 40,
+    "nome": "Grampeador de Mesa",
+    "preco": 29.9,
+    "marca": "Tris",
+    "estoque": 85,
+    "descricao": "Grampeador de mesa ergonômico e resistente para uso contínuo em escritórios."
+  },
+  {
+    "id": 41,
+    "nome": "Estabilizador 500VA",
+    "preco": 249.9,
+    "marca": "SMS",
+    "estoque": 60,
+    "descricao": "Estabilizador compacto para proteção segura de equipamentos eletrônicos básicos."
+  },
+  {
+    "id": 42,
+    "nome": "Nobreak 1200VA",
+    "preco": 1199.99,
+    "marca": "APC",
+    "estoque": 10,
+    "descricao": "Nobreak confiável para manter os aparelhos ligados durante quedas de energia."
+  },
+  {
+    "id": 43,
+    "nome": "Webcam Full HD",
+    "preco": 349.9,
+    "marca": "Logitech",
+    "estoque": 45,
+    "descricao": "Webcam de alta resolução e foco automático para videoconferências nítidas."
+  },
+  {
+    "id": 44,
+    "nome": "Microfone Condensador USB",
+    "preco": 799.9,
+    "marca": "Fifine",
+    "estoque": 30,
+    "descricao": "Microfone condensador de estúdio, ideal para podcasts, streams e gravações de voz."
+  },
+  {
+    "id": 45,
+    "nome": "Tripé Ajustável",
+    "preco": 129.9,
+    "marca": "Greika",
+    "estoque": 75,
+    "descricao": "Tripé em alumínio leve e totalmente ajustável para câmeras e smartphones."
+  },
+  {
+    "id": 46,
+    "nome": "Notebook Gamer",
+    "preco": 8999.99,
+    "marca": "Acer",
+    "estoque": 12,
+    "descricao": "Notebook robusto projetado especificamente para máxima performance em jogos pesados."
+  },
+  {
+    "id": 47,
+    "nome": "Ultrabook Dell XPS",
+    "preco": 7499.99,
+    "marca": "Dell",
+    "estoque": 7,
+    "descricao": "Ultrabook premium com design extremamente fino, tela de alta fidelidade e estrutura em alumínio."
+  },
+  {
+    "id": 48,
+    "nome": "Chromebook Lenovo",
+    "preco": 2299.9,
+    "marca": "Lenovo",
+    "estoque": 28,
+    "descricao": "Chromebook leve e com inicialização rápida, ideal para navegação na web e estudos."
+  },
+  {
+    "id": 49,
+    "nome": "MacBook Air M2",
+    "preco": 10499.99,
+    "marca": "Apple",
+    "estoque": 14,
+    "descricao": "MacBook com o poderoso chip M2, unindo desempenho excepcional e bateria para o dia todo."
+  },
+  {
+    "id": 50,
+    "nome": "Servidor Torre",
+    "preco": 14999.99,
+    "marca": "HP",
+    "estoque": 4,
+    "descricao": "Servidor de alta capacidade de processamento e armazenamento para pequenas e médias empresas."
+  },
+  {
+    "id": 51,
+    "nome": "Caixa Organizadora",
+    "preco": 24.9,
+    "marca": "Sanremo",
+    "estoque": 150,
+    "descricao": "Caixa organizadora plástica transparente com travas de segurança na tampa."
+  },
+  {
+    "id": 52,
+    "nome": "Estojo Escolar",
+    "preco": 39.9,
+    "marca": "DAC",
+    "estoque": 90,
+    "descricao": "Estojo resistente e espaçoso com divisórias para materiais escolares e canetas."
+  },
+  {
+    "id": 53,
+    "nome": "Tesoura Escolar",
+    "preco": 7.9,
+    "marca": "Tramontina",
+    "estoque": 180,
+    "descricao": "Tesoura sem ponta em aço inox, segura para uso escolar e artesanato."
+  },
+  {
+    "id": 54,
+    "nome": "Cola Branca 90g",
+    "preco": 4.9,
+    "marca": "Tenaz",
+    "estoque": 220,
+    "descricao": "Cola líquida branca lavável e atóxica para papéis e trabalhos escolares."
+  },
+  {
+    "id": 55,
+    "nome": "Agenda 2025",
+    "preco": 59.9,
+    "marca": "Foroni",
+    "estoque": 160,
+    "descricao": "Agenda anual com planejamento diário, fita marcadora e capa dura resistente."
+  },
+  {
+    "id": 56,
+    "nome": "Plastificadora A4",
+    "preco": 399.9,
+    "marca": "Aurora",
+    "estoque": 15,
+    "descricao": "Plastificadora térmica rápida e eficiente para proteção de documentos até tamanho A4."
+  },
+  {
+    "id": 57,
+    "nome": "Calculadora Científica",
+    "preco": 129.9,
+    "marca": "Casio",
+    "estoque": 85,
+    "descricao": "Calculadora com múltiplas funções matemáticas avançadas para estudantes de exatas."
+  },
+  {
+    "id": 58,
+    "nome": "Cadeira Gamer",
+    "preco": 1199.99,
+    "marca": "ThunderX3",
+    "estoque": 22,
+    "descricao": "Cadeira ergonômica projetada para manter a postura durante longas horas de gameplay."
+  },
+  {
+    "id": 59,
+    "nome": "Mesa para Computador",
+    "preco": 499.9,
+    "marca": "Kappesberg",
+    "estoque": 18,
+    "descricao": "Mesa em MDF com amplo espaço para monitor, teclado e organização do home office."
+  },
+  {
+    "id": 60,
+    "nome": "Cadeira de Escritório",
+    "preco": 699.9,
+    "marca": "Flexform",
+    "estoque": 35,
+    "descricao": "Cadeira confortável com tela mesh, ajuste de altura e apoio lombar ergonômico."
+  },
+  {
+    "id": 61,
+    "nome": "Monitor Ultra",
+    "preco": 1200,
+    "marca": "Dell",
+    "estoque": 20,
+    "descricao": "Monitor de alta definição com bordas ultrafinas, ideal para setups de produtividade."
+  },
+  {
+    "id": 62,
+    "nome": "Mouse Sem Fio",
+    "preco": 80,
+    "marca": "Logitech",
+    "estoque": 25,
+    "descricao": "Mouse sem fio com conexão estável via dongle USB e longa duração de bateria."
+  },
+  {
+    "id": 63,
+    "nome": "Teclado Mecânico",
+    "preco": 250,
+    "marca": "Keychron",
+    "estoque": 0,
+    "descricao": "Teclado mecânico compacto com switches responsivos e iluminação RGB customizável."
+  }
+]
+```
+
+mudança no caminho do arquivo de persistência:
+
+```jsx
+const ARQUIVO = path.join(__dirname, "produtos_16.json");
+```
+
+mudança na rota POST, adição do campo descrição
+
+```jsx
+app.post("/api/produtos/", (req, res) => {
+  const { nome, preco, marca, estoque, descricao } = req.body;
+
+const erros = validarProduto({ nome, preco, marca, estoque, descricao });
+if (Object.keys(erros).length > 0) {
+  return res.status(400).json({ detail: erros });
+}
+
+  const novoId = produtos.length
+    ? Math.max(...produtos.map((p) => p.id)) + 1
+    : 1;
+
+  const novoProduto = {
+  id: novoId,
+  nome: nome.trim(),
+  preco,
+  marca: marca.trim(),
+  estoque: Number(estoque),
+  descricao: typeof descricao === "string" ? descricao.trim() : descricao ?? "",
+};
+```
+
+adição de descrição também na rota PUT
+
+```jsx
+app.put("/api/produtos/:id/", (req, res) => {
+  const index = produtos.findIndex((p) => p.id === parseInt(req.params.id));
+  if (index === -1)
+    return res.status(404).json({ detail: "Produto não encontrado." });
+
+  const { nome, preco, marca, estoque, descricao  } = req.body;
+
+  const erros = validarProduto({ nome, preco, marca, estoque, descricao  });
+  if (Object.keys(erros).length > 0) {
+    return res.status(400).json({ detail: erros });
+  }
+
+  // Substitui completamente os dados, mantendo o id
+  produtos[index] = {
+    id: parseInt(req.params.id),
+    nome: nome.trim(),
+    preco,
+    marca: marca.trim(),
+    estoque: Number(estoque),
+    descricao: typeof descricao === "string" ? descricao.trim() : descricao ?? "",
+  };
+
+  salvarProdutos(produtos);
+
+  res.json(produtos[index]);
+})
+```
+
+adicionar descricao na rota GET
+
+```jsx
+app.get("/api/produtos/", (req, res) => {
+  const {
+    search,
+    estoque_minimo,
+    estoque_maximo,
+    marca,
+    preco_minimo,
+    preco_maximo,
+    ordering,
+    page,
+    page_size,
+    descricao,
+  } = req.query;
+```
+
+adicionar na função validarProduto o seguinte:
+
+```jsx
+const erros = validarProduto({ nome, preco, marca, estoque, descricao });
+
+...
+
+if (descricao !== undefined && descricao !== null) {
+  if (typeof descricao !== "string") {
+    erros.descricao = "O campo deve ser uma string.";
+  } else if (descricao.trim().length > 500) {
+    erros.descricao = "A descrição não pode ultrapassar 500 caracteres.";
+  }
+}
+```
+
+adicionar em ordenação o seguinte:
+
+```jsx
+} else if (campoOrdenacao === "descricao") {
+  const descA = (a.descricao || "").toLowerCase();
+  const descB = (b.descricao || "").toLowerCase();
+  comparacao = descA.localeCompare(descB);
+}
+```
+
+mudar o search para: 
+
+```jsx
+if (search !== undefined && search !== "") {
+  const termo = search.toLowerCase();
+  resultado = resultado.filter(p => {
+    const noNome = p.nome.toLowerCase().includes(termo);
+    const naMarca = p.marca && p.marca.toLowerCase().includes(termo);
+    const naDescricao = p.descricao && p.descricao.toLowerCase().includes(termo);
+    return noNome || naMarca || naDescricao;
+  });
+}
+```
+
+testes: 
+
+| **Cenário de Teste** | **Método** | **URL** | **Corpo (JSON)** | **Status Esperado** | **O que validar** |
+| --- | --- | --- | --- | --- | --- |
+| **01. Criar produto completo** | POST | `/api/produtos/` | `{"nome": "Monitor Pro 4K", "preco": 2800.0, "marca": "LG", "estoque": 8, "descricao": "Painel IPS com HDR e conexões USB-C"}` | `201 Created` | Retorna o produto com todos os 6 campos |
+| **02. Criar produto sem descrição** | POST | `/api/produtos/` | `{"nome": "Cabo HDMI", "preco": 35.0, "marca": "Ugreen", "estoque": 50}` | `201 Created` | Sucesso (campo opcional) |
+| **03. Descrição com mais de 500 chars** | POST | `/api/produtos/` | `{"nome": "X", "preco": 10.0, "marca": "Y", "estoque": 1, "descricao": "texto muito longo..."}` | `400 Bad Request` | `detail.descricao` acusa limite excedido |
+| **04. Ordenar por descrição** | GET | `/api/produtos/?ordering=descricao` | — | `200 OK` | Ordena alfabeticamente pela descrição |
+| **05. Buscar termo presente na descrição** | GET | `/api/produtos/?search=usb-c` | — | `200 OK` | Encontra o produto pela especificação na descrição |
+| **06. Buscar termo presente na marca** | GET | `/api/produtos/?search=ugreen` | — | `200 OK` | Encontra pela marca |
+| **07. Buscar termo presente no nome** | GET | `/api/produtos/?search=monitor` | — | `200 OK` | Encontra pelo nome |
+
+# Todos os testes (aula 14 ~16)
+
+- node aula14_adicionando_marca.js
+    - POST
+        
+        [http://127.0.0.1:3000/api/produtos/](http://127.0.0.1:3000/api/produtos/)
+        
+        1. Criar produto com marca válida
+            - Já feito e no arquivo produtos_14.json:
+                
+                [http://127.0.0.1:3000/api/produtos/61/](http://127.0.0.1:3000/api/produtos/61/)
+                
+                ```json
+                {"nome": "Monitor Ultra", "preco": 1200.0, "marca": "Dell"}
+                ```
+                
+                ```json
+                {
+                    "id": 61,
+                    "nome": "Monitor Ultra",
+                    "preco": 1200,
+                    "marca": "Dell"
+                  }
+                ```
+                
+        2. Criar com marca ausente
+            
+            ```json
+            {"nome": "Monitor Ultra", "preco": 1200.0}
+            ```
+            
+            Saída esperada: 400 Bad Request (`detail.marca` indica campo obrigatório)
+            
+        3. Criar com marca vazia/curta
+            
+            ```json
+            {"nome": "Monitor", "preco": 1000.0, "marca": " "}
+            ```
+            
+            Saída esperada: 400 Bad Request (`detail.marca` indica erro de validação)
+            
+    - PUT
+        1. Atualizar marca via PUT
+            - Já feito e no arquivo produtos_14.json:
+                
+                [http://127.0.0.1:3000/api/produtos/1/](http://127.0.0.1:3000/api/produtos/1/)
+                
+                ```json
+                {"nome": "Notebook Pro", "preco": 3800.0, "marca": "Lenovo"}
+                ```
+                
+                ```json
+                {
+                    "id": 1,
+                    "nome": "Notebook Pro",
+                    "preco": 3800,
+                    "marca": "Lenovo"
+                  }
+                ```
+                
+    - GET
+        1. Filtrar por marca existente
+            
+            [http://127.0.0.1:3000/api/produtos/?marca=Dell](http://127.0.0.1:3000/api/produtos/?marca=Dell)
+            
+        2. Filtrar por marca inexistente
+            
+            [http://127.0.0.1:3000/api/produtos/?marca=MarcaFantasma](http://127.0.0.1:3000/api/produtos/?marca=MarcaFantasma)
+            
+        3. Combinar marca e preço
+            
+            [http://127.0.0.1:3000/api/produtos/?marca=Dell&preco_minimo=2000](http://127.0.0.1:3000/api/produtos/?marca=Dell&preco_minimo=2000)
+            
+        4. Ordenação crescente por marca
+            
+            [http://127.0.0.1:3000/api/produtos/?ordering=marca](http://127.0.0.1:3000/api/produtos/?ordering=marca)
+            
+        5. Ordenação decrescente por marca
+            
+            [http://127.0.0.1:3000/api/produtos/?ordering=-marca](http://127.0.0.1:3000/api/produtos/?ordering=-marca)
+            
+        6. Busca textual pela marca
+            
+            [http://127.0.0.1:3000/api/produtos/?search=dell](http://127.0.0.1:3000/api/produtos/?search=dell)
+            
+        7. Busca sem resultados
+            
+            [http://127.0.0.1:3000/api/produtos/?search=termoinexistente](http://127.0.0.1:3000/api/produtos/?search=termoinexistente)
+            
+- node aula15_adicionando_estoque.js
+    - POST
+        1. Criar com estoque válido - Já criado 
+            
+            [http://127.0.0.1:3000/api/produtos/62/](http://127.0.0.1:3000/api/produtos/62/)
+            
+        2. Criar com estoque zero - Já criado
+            
+            [http://127.0.0.1:3000/api/produtos/63/](http://127.0.0.1:3000/api/produtos/63/)
+            
+        3. Criar com estoque negativo
+            
+            ```json
+            {"nome": "Fone", "preco": 150.0, "marca": "Sony", "estoque": -5}
+            ```
+            
+            saída esperada: 400 Bad Request (`detail.estoque` avisa que não pode ser negativo)
+            
+        4. Criar com tipo inválido
+            
+            ```json
+            {"nome": "Fone", "preco": 150.0, "marca": "Sony", "estoque": "muitos"}
+            ```
+            
+            saída esperada: 400 Bad Request (`detail.estoque` avisa que deve ser inteiro)
+            
+        - GET
+            1. Filtrar por estoque mínimo
+            
+            [http://127.0.0.1:3000/api/produtos/?estoque_minimo=10](http://127.0.0.1:3000/api/produtos/?estoque_minimo=10)
+            
+            1. Filtrar por estoque máximo
+                
+                [http://127.0.0.1:3000/api/produtos/?estoque_maximo=5](http://127.0.0.1:3000/api/produtos/?estoque_maximo=5)
+                
+            2. Filtrar por faixa de estoque
+                
+                [http://127.0.0.1:3000/api/produtos/?estoque_minimo=10&estoque_maximo=30](http://127.0.0.1:3000/api/produtos/?estoque_minimo=10&estoque_maximo=30)
+                
+            3. Ordenar crescente por estoque
+                
+                [http://127.0.0.1:3000/api/produtos/?ordering=estoque](http://127.0.0.1:3000/api/produtos/?ordering=estoque)
+                
+            4. Ordenar decrescente por estoque
+                
+                [http://127.0.0.1:3000/api/produtos/?ordering=-estoque](http://127.0.0.1:3000/api/produtos/?ordering=-estoque)
+                
+            5. Combinar marca, preço e estoque
+                
+                [http://127.0.0.1:3000/api/produtos/?marca=Dell&preco_minimo=1000&estoque_minimo=1](http://127.0.0.1:3000/api/produtos/?marca=Dell&preco_minimo=1000&estoque_minimo=1)
+                
+- node aula16_adicionando_descricao.js
+    - POST
+        1. Criar produto completo - Já criado
+            
+            [http://127.0.0.1:3000/api/produtos/64/](http://127.0.0.1:3000/api/produtos/64/)
+            
+        2. Criar produto sem descrição - Já criado
+            
+            [http://127.0.0.1:3000/api/produtos/65/](http://127.0.0.1:3000/api/produtos/65/)
+            
+        3. Descrição com mais de 500 chars
+            
+            Saída esperada: 400 Bad Request (`detail.descricao` acusa limite excedido)
+            
+            ```json
+            {"nome": "X", "preco": 10.0, "marca": "Y", "estoque": 1, "descricao": "texto muito longo..."}
+            ```
+            
+    - GET
+        1. Ordenar por descrição
+            
+            [http://127.0.0.1:3000/api/produtos/?ordering=descricao](http://127.0.0.1:3000/api/produtos/?ordering=descricao)
+            
+        2. Buscar termo presente na descrição
+            
+            [http://127.0.0.1:3000/api/produtos/?search=usb-c](http://127.0.0.1:3000/api/produtos/?search=usb-c)
+            
+        3. Buscar termo presente na marca
+            
+            [http://127.0.0.1:3000/api/produtos/?search=ugreen](http://127.0.0.1:3000/api/produtos/?search=ugreen)
+            
+        4. Buscar termo presente no nome
+            
+            [http://127.0.0.1:3000/api/produtos/?search=monitor](http://127.0.0.1:3000/api/produtos/?search=monitor)

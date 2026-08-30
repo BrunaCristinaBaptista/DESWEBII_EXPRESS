@@ -11,7 +11,7 @@
 // Persistência: produtos_14.json (fs/path); GET não grava; POST, PUT e DELETE gravam.
 //
 // Rodar servidor:
-// node Aula14_adicionando_marca.js
+// node aula14_adicionando_marca.js
 
 const express = require('express');
 const fs = require('fs');
